@@ -6,6 +6,8 @@ using api.Logger;
 using api.Mailer;
 using api.Repository.Implementations;
 using api.Repository.Interfaces;
+using api.Services.Implementations;
+using api.Services.Interfaces;
 using api.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
@@ -55,6 +57,12 @@ namespace api.Extensions
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 
+            services.AddScoped<IDataSeedService, DataSeedService>();
+            services.AddScoped<IAccountTypeDataSeedService, AccountTypeDataSeedService>();
+            services.AddScoped<IRoleDataSeedService, RoleDataSeedService>();
+            services.AddScoped<IAccountDataSeedService, AccountDataSeedService>();
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         public static void MigrateDatabase(this IServiceCollection services)
@@ -65,8 +73,8 @@ namespace api.Extensions
 
         public static void SeedDefaultData(this IServiceCollection services)
         {
-            //var dataSeedService = services.BuildServiceProvider().GetRequiredService<IDataSeedService>();
-            //dataSeedService.SeedData();
+            var dataSeedService = services.BuildServiceProvider().GetRequiredService<IDataSeedService>();
+            dataSeedService.SeedData();
         }
 
         public static void ConfigureExceptionHandler(this IApplicationBuilder app)

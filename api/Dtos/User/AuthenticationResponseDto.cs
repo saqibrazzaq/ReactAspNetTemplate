@@ -8,7 +8,7 @@ namespace api.Dtos.User
         public IEnumerable<string>? Roles { get; set; }
         public string? AccessToken { get; set; }
         public bool EmailConfirmed { get; set; } = false;
-        public Guid? AccountId { get; set; }
+        public int? AccountId { get; set; }
 
         [JsonIgnore]
         public string? RefreshToken { get; set; }

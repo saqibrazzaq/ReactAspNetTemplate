@@ -114,27 +114,27 @@
             }
         }
 
-        public static string? DefaultOwnerUsername
+        public static string? DefaultSuperAdminUsername
         {
             get
             {
-                return Environment.GetEnvironmentVariable("DEFAULT_OWNER_USERNAME");
+                return Environment.GetEnvironmentVariable("DEFAULT_SUPER_ADMIN_USERNAME");
             }
         }
 
-        public static string? DefaultOwnerPassword
+        public static string? DefaultSuperAdminPassword
         {
             get
             {
-                return Environment.GetEnvironmentVariable("DEFAULT_OWNER_PASSWORD");
+                return Environment.GetEnvironmentVariable("DEFAULT_SUPER_ADMIN_PASSWORD");
             }
         }
 
-        public static string? DefaultOwnerEmailAddress
+        public static string? DefaultSuperAdminEmailAddress
         {
             get
             {
-                return Environment.GetEnvironmentVariable("DEFAULT_OWNER_EMAIL");
+                return Environment.GetEnvironmentVariable("DEFAULT_SUPER_ADMIN_EMAIL");
             }
         }
 

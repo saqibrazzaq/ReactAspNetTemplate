@@ -50,8 +50,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//builder.Services.MigrateDatabase();
-//builder.Services.SeedDefaultData();
+builder.Services.MigrateDatabase();
+builder.Services.SeedDefaultData();
 
 app.UseHttpsRedirection();
 

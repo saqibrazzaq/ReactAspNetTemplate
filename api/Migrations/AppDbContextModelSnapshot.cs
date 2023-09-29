@@ -250,10 +250,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Entities.AccountType", b =>
                 {
                     b.Property<int>("AccountTypeId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountTypeId"));
 
                     b.Property<string>("Name")
                         .IsRequired()

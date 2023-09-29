@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230927164434_account")]
-    partial class account
+    [Migration("20230928051906_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,10 +253,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Entities.AccountType", b =>
                 {
                     b.Property<int>("AccountTypeId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountTypeId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
