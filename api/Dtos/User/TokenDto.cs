@@ -7,7 +7,7 @@ namespace api.Dtos.User
     {
         [Required(ErrorMessage = "Access token is required")]
         public string? AccessToken { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public string? RefreshToken { get; set; }
     }
 }

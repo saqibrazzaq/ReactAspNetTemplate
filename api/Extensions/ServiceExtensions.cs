@@ -40,7 +40,7 @@ namespace api.Extensions
                 {
                     builder
                     //.AllowAnyOrigin()
-                    .WithOrigins(SecretUtility.CorsOrigins)
+                    .WithOrigins(SecretUtility.CorsOrigins.Split(','))
                     .AllowCredentials()
                     .AllowAnyMethod()
                     .AllowAnyHeader();

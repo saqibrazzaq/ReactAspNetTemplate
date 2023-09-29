@@ -1,9 +1,11 @@
+using api.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -28,6 +30,13 @@ namespace api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("test")]
+        [Authorize(Roles = Constants.AllRoles)]
+        public IActionResult Test()
+        {
+            return Ok("This is protected");
         }
     }
 }

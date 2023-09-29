@@ -37,6 +37,18 @@ namespace api.Controllers
             return Ok(res);
         }
 
+        [HttpPost("refresh-token")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> RefreshToken(
+            [FromBody] TokenDto dto)
+        {
+            dto.RefreshToken = Request.Cookies[Constants.RefreshTokenCookieName];
+            var res = await _userService.RefreshToken(dto);
+            setRefreshTokenCookie(res.RefreshToken);
+
+            return Ok(res);
+        }
+
         private void setRefreshTokenCookie(string? refreshToken)
         {
             var cookieOptions = new CookieOptions

@@ -10,7 +10,7 @@ namespace api.Dtos.User
         public bool EmailConfirmed { get; set; } = false;
         public int? AccountId { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public string? RefreshToken { get; set; }
     }
 }
