@@ -23,6 +23,8 @@ const Login = () => {
       .then((res) => {
         let authRes: AuthenticationResponseDto = res;
         console.log(authRes);
+        localStorage.setItem("token", authRes.accessToken ?? "")
+        localStorage.setItem("refreshToken", authRes.refreshToken ?? "")
         navigate("/");
       })
       .catch((err) => {

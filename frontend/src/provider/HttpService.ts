@@ -1,7 +1,8 @@
 import axios from 'axios';
+import Common from '../utility/Common';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://localhost:7199/api',
+  baseURL: Common.API_BASE_URL,
 });
 
 // Add a request interceptor
@@ -28,10 +29,11 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
+        const accessToken = localStorage.getItem('token');
         const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post('/auth/refresh-token', { refreshToken });
-        console.log("Got new refresh token")
-        const { token } = response.data;
+        const response = await axios.post(Common.API_BASE_URL + '/auth/refresh-token', { accessToken, refreshToken });
+        console.log("Got new refresh token: " + response.data)
+        const token = response.data.accessToken;
 
         localStorage.setItem('token', token);
 

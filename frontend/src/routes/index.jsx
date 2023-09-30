@@ -5,6 +5,7 @@ import Logout from "../pages/Logout";
 import Public from "../pages/Public";
 import Private from "../pages/Private";
 import Login from "../pages/Login";
+import Refresh from "../pages/Refresh";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -34,6 +35,10 @@ const Routes = () => {
         {
           path: "/profile",
           element: <div>User Profile</div>,
+        },
+        {
+          path: "/refresh",
+          element: <Refresh />
         },
         {
           path: "/logout",

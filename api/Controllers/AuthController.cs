@@ -3,6 +3,7 @@ using api.Common.ActionFilters;
 using api.Dtos.User;
 using api.Services.Interfaces;
 using api.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,10 +43,18 @@ namespace api.Controllers
         public async Task<IActionResult> RefreshToken(
             [FromBody] TokenDto dto)
         {
-            dto.RefreshToken = Request.Cookies[Constants.RefreshTokenCookieName];
+            //dto.RefreshToken = Request.Cookies[Constants.RefreshTokenCookieName];
             var res = await _userService.RefreshToken(dto);
             setRefreshTokenCookie(res.RefreshToken);
 
+            return Ok(res);
+        }
+
+        [HttpGet("info")]
+        [Authorize(Roles = Constants.AllRoles)]
+        public async Task<IActionResult> GetUser()
+        {
+            var res = await _userService.GetLoggedInUser();
             return Ok(res);
         }
 

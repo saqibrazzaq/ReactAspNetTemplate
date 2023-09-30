@@ -1,3 +1,4 @@
+import RefreshTokenDto from "../models/User/RefreshTokenDto";
 import UserLoginDto from "../models/User/UserLoginDto";
 import axiosInstance from "../provider/HttpService";
 
@@ -12,12 +13,21 @@ export const AuthApi = {
 
     return response.data;
   },
-  // private: async function () {
-  //   const response = await axiosInstance.request({
-  //     url: `/WeatherForecast/test`,
-  //     method: "GET",
-  //   });
+  refreshToken: async function (data: RefreshTokenDto) {
+    const response = await axiosInstance.request({
+      url: "/auth/refresh-token",
+      method: "POST",
+      data: data,
+    });
 
-  //   return response.data;
-  // },
+    return response.data;
+  },
+  userInfo: async function () {
+    const response = await axiosInstance.request({
+      url: `/auth/info`,
+      method: "GET",
+    });
+
+    return response.data;
+  },
 };

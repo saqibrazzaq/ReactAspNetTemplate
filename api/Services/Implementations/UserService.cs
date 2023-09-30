@@ -221,7 +221,7 @@ namespace api.Services.Implementations
         {
             var principal = GetPrincipalFromExpiredToken(dto.AccessToken);
             if (principal == null || principal.Identity == null)
-                throw new BadRequestException("Invalid access token or refresh token");
+                throw new BadRequestException("Invalid access token");
 
             string? username = principal.Identity.Name;
 
@@ -230,24 +230,24 @@ namespace api.Services.Implementations
             if (userEntity == null || userEntity.RefreshToken != dto.RefreshToken
                 || userEntity.RefreshTokenExpiryTime <= DateTime.Now)
             {
-                throw new BadRequestException("Invalid access token or refresh token");
+                throw new BadRequestException("Invalid refresh token");
             }
 
             var newAccessToken = CreateToken(principal.Claims.ToList());
-            var newRefreshToken = GenerateRefreshToken();
+            //var newRefreshToken = GenerateRefreshToken();
 
             // Update user repository
-            userEntity.RefreshToken = newRefreshToken;
-            userEntity.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
-                   int.Parse(SecretUtility.JWTRefreshTokenValidityInDays));
-            var userResult = await _userManager.UpdateAsync(userEntity);
-            if (userResult.Succeeded == false)
-                throw new BadRequestException("Invalid token");
+            //userEntity.RefreshToken = newRefreshToken;
+            //userEntity.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
+            //       int.Parse(SecretUtility.JWTRefreshTokenValidityInDays));
+            //var userResult = await _userManager.UpdateAsync(userEntity);
+            //if (userResult.Succeeded == false)
+            //    throw new BadRequestException("Invalid token");
 
             return new TokenDto
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
-                RefreshToken = newRefreshToken,
+                //RefreshToken = dto.RefreshToken,
             };
         }
 
@@ -255,6 +255,8 @@ namespace api.Services.Implementations
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
+                ValidIssuer = SecretUtility.JwtValidIssuer,
+                ValidAudience = SecretUtility.JwtValidAudience,
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
