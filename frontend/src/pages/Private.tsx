@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { WeatherApi } from '../api/WeatherApi';
+import { AuthApi } from '../api/AuthApi';
 
 const Private = () => {
   useEffect(() => {
-    WeatherApi.private().then(res => {
+    AuthApi.userInfo().then(res => {
       console.log(res)
     })
   }, []);

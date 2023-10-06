@@ -6,6 +6,11 @@ import Public from "../pages/Public";
 import Private from "../pages/Private";
 import Login from "../pages/Login";
 import Refresh from "../pages/Refresh";
+import Home from "../pages/Home/Home";
+import AccountLayout from "../layout/AccountLayout/AccountLayout";
+import AccountHome from "../pages/Account/AccountHome";
+import ChangePassword from "../pages/Account/ChangePassword";
+import AdminLayout from "../layout/AdminLayout/AdminLayout";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -30,19 +35,29 @@ const Routes = () => {
       children: [
         {
           path: "",
-          element: <div>User Home Page</div>,
+          element: <Home />,
         },
         {
-          path: "/profile",
-          element: <div>User Profile</div>,
+          path: "/account",
+          element: <AccountLayout />,
+          children: [
+            {
+              path: "",
+              element: <AccountHome />
+            },
+            {
+              path: "change-password",
+              element: <ChangePassword />
+            },
+            {
+              path: "logout",
+              element: <Logout />
+            }
+          ]
         },
         {
           path: "/refresh",
           element: <Refresh />
-        },
-        {
-          path: "/logout",
-          element: <Logout/>,
         },
       ],
     },
@@ -52,19 +67,22 @@ const Routes = () => {
   const routesForNotAuthenticatedOnly = [
     {
       path: "/",
-      element: <div>Home Page</div>,
+      element: <AdminLayout />,
+      children: [
+        {
+          path: "login",
+          element: <Login/>,
+        },
+      ]
     },
-    {
-      path: "/login",
-      element: <Login/>,
-    },
+    
   ];
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
     ...routesForPublic,
-    // ...(!token ? routesForNotAuthenticatedOnly : []),
-    ...routesForNotAuthenticatedOnly,
+    ...(!token ? routesForNotAuthenticatedOnly : []),
+    // ...routesForNotAuthenticatedOnly,
     ...routesForAuthenticatedOnly,
   ]);
 

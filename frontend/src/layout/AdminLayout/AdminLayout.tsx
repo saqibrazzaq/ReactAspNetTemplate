@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import TopNavbar from './top-navbar'
 import Footer from './Footer'
 
-const PublicLayout = () => {
+const AdminLayout = () => {
   return (
     <ChakraProvider theme={theme}>
       <Box >
@@ -18,4 +18,4 @@ const PublicLayout = () => {
   )
 }
 
-export default PublicLayout
+export default AdminLayout

@@ -58,6 +58,16 @@ namespace api.Controllers
             return Ok(res);
         }
 
+        [HttpPost("change-password")]
+        [Authorize(Roles = Constants.AllRoles)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangePassword(
+            [FromBody] ChangePasswordRequestDto dto)
+        {
+            await _userService.ChangePassword(dto);
+            return Ok();
+        }
+
         private void setRefreshTokenCookie(string? refreshToken)
         {
             var cookieOptions = new CookieOptions

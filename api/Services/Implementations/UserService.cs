@@ -144,7 +144,10 @@ namespace api.Services.Implementations
                     Email = userEntity.Email,
                     Roles = await _userManager.GetRolesAsync(userEntity),
                     EmailConfirmed = userEntity.EmailConfirmed,
-                    AccountId = userEntity.AccountId
+                    AccountId = userEntity.AccountId,
+                    Id = userEntity.Id,
+                    FullName = userEntity.FullName,
+                    UserName = userEntity.UserName,
                 };
 
                 // Generate access/refresh tokens
@@ -167,14 +170,19 @@ namespace api.Services.Implementations
 
             var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    //new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("username", user.UserName),
+                    new Claim("email", user.Email),
+                    //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("userid", user.Id.ToString()),
                 };
 
+            string roles = "";
             foreach (var userRole in userRoles)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                roles += userRole + ",";
             }
+            authClaims.Add(new Claim("roles", roles));
 
             var token = CreateToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);

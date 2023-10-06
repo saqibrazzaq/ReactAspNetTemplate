@@ -11,6 +11,7 @@ namespace api.Entities
         public DateTime? EmailVerificationTokenExpiryTime { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public string? ProfilePictureCloudinaryId { get; set; }
+        public string FullName { get; set; } = "";
 
         // Foreign keys
         public int? AccountId { get; set; }

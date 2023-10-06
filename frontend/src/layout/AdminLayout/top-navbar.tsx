@@ -34,6 +34,7 @@ import UserDto from "../../models/User/UserDto";
 import { useAuth } from "../../provider/authProvider";
 import { AuthApi } from "../../api/AuthApi";
 import { Roles } from "../../models/User/Roles";
+import Common from "../../utility/Common";
 
 interface NavItem {
   name: string;
@@ -78,7 +79,10 @@ export default function TopNavbar() {
   const { token } = useAuth();
   
   useEffect(() => {
-    loadUserInfo();
+    if (!token) return;
+    AuthApi.userInfo().then(res => {
+      setUserData(res);
+    })
   }, [token]);
 
   useEffect(() => {
@@ -106,13 +110,6 @@ export default function TopNavbar() {
   //       console.log(err);
   //     });
   // };
-
-  const loadUserInfo = () => {
-    AuthApi.userInfo().then((res) => {
-      console.log(res.data);
-      setUserData(res.data);
-    });
-  };
 
   function isAdmin() {
     if (
@@ -152,7 +149,7 @@ export default function TopNavbar() {
             My Account
           </MenuItem>
           <MenuDivider />
-          <MenuItem as={RouteLink} to="/logout">
+          <MenuItem as={RouteLink} to="/account/logout">
             Logout
           </MenuItem>
         </MenuList>

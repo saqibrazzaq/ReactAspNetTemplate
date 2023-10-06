@@ -5,4 +5,7 @@ export default class AuthenticationResponseDto {
   refreshToken?: string;
   emailConfirmed: boolean = false;
   accountId?: string;
+  fullName?: string;
+  id?: string;
+  userName?: string;
 }

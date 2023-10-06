@@ -7,7 +7,8 @@ import ErrorDetails from "../models/Error/ErrorDetails";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Checkbox, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Image, Input, Link, Stack, Text } from "@chakra-ui/react";
-import { Field, Formik } from "formik";
+import { Field, Formik, replace } from "formik";
+import { useAuth } from "../provider/authProvider";
 
 YupPassword(Yup); // extend yup
 
@@ -15,7 +16,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123!");
+  let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123@");
 
   const submitForm = (values: UserLoginDto) => {
     setError("");
@@ -25,7 +26,7 @@ const Login = () => {
         console.log(authRes);
         localStorage.setItem("token", authRes.accessToken ?? "")
         localStorage.setItem("refreshToken", authRes.refreshToken ?? "")
-        navigate("/");
+        updateUserInfoAndGotoHomepage();
       })
       .catch((err) => {
         let errDetails: ErrorDetails = err?.response?.data;
@@ -33,6 +34,17 @@ const Login = () => {
         console.log("Error: " + err?.response?.data?.Message);
       });
   };
+
+  const updateUserInfoAndGotoHomepage = () => {
+    AuthApi.userInfo().then(res => {
+      localStorage.setItem("user", JSON.stringify(res));
+
+      setTimeout(() => {
+        navigate("/", {replace: true});
+      }, 1 * 1000);
+      
+    })
+  }
 
   // Formik validation schema
   const validationSchema = Yup.object({

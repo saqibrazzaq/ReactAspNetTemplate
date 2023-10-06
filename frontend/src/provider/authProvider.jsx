@@ -1,17 +1,17 @@
 // import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import UserDto from "../models/User/UserDto";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem("token"));
-
+  
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
   };
-
   useEffect(() => {
     if (token) {
       // axios.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -19,6 +19,8 @@ const AuthProvider = ({ children }) => {
     } else {
       // delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("user")
     }
   }, [token]);
 
