@@ -28,13 +28,17 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import UserDto from "../../models/User/UserDto";
-import { useAuth } from "../../provider/authProvider";
-import { AuthApi } from "../../api/AuthApi";
 import { Roles } from "../../models/User/Roles";
 import Common from "../../utility/Common";
+import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../storage/Redux/store";
+import {
+  setLoggedInUser,
+  emptyUserState,
+} from "../../storage/Redux/userAuthSlice";
 
 interface NavItem {
   name: string;
@@ -44,49 +48,46 @@ interface NavItem {
   slug?: string;
 }
 
-// const NAV_ITEMS: Array<NavItem> = [
-//   {
-//     label: "Admin",
-//     href: "/admin",
-//     children: [
-//       {
-//         label: "Register Admin",
-//         subLabel: "Create a new Admin user",
-//         href: "/admin/register-admin",
-//       },
-//       {
-//         label: "New & Noteworthy",
-//         subLabel: "Up-and-coming Designers",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   {
-//     label: "Learn Design",
-//     href: "#",
-//   },
-//   {
-//     label: "Hire Designers",
-//     href: "#",
-//   },
-// ];
+const NAV_ITEMS: Array<NavItem> = [
+  {
+    name: "Admin",
+    href: "/admin",
+    children: [
+      {
+        name: "Register Admin",
+        subLabel: "Create a new Admin user",
+        href: "/admin/register-admin",
+      },
+      {
+        name: "New & Noteworthy",
+        subLabel: "Up-and-coming Designers",
+        href: "#",
+      },
+    ],
+  },
+  {
+    name: "Public",
+    href: "/public",
+  },
+  {
+    name: "Private",
+    href: "/private",
+  },
+];
 
-export default function TopNavbar() {
+export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const [navItems, setNavItems] = useState<Array<NavItem>>([]);
-  const [userData, setUserData] = useState<UserDto>();
-  
-  const { token } = useAuth();
-  
-  useEffect(() => {
-    if (!token) return;
-    AuthApi.userInfo().then(res => {
-      setUserData(res);
-    })
-  }, [token]);
+  const dispatch = useDispatch();
+  const userData: AuthenticationResponseDto = useSelector(
+    (state: RootState) => state.userAuthStore
+  );
+  const navigate = useNavigate();
+  console.log("In header");
+  console.log(userData);
 
   useEffect(() => {
-    // loadTaxonMenu();
+    setNavItems(NAV_ITEMS);
   }, []);
 
   // const loadTaxonMenu = () => {
@@ -124,38 +125,46 @@ export default function TopNavbar() {
     return false;
   }
 
-  const showMenuForLoggedInUser = () => (
-    <Box>
-      <Menu>
-        <MenuButton
-          as={Button}
-          rounded={"full"}
-          variant={"link"}
-          cursor={"pointer"}
-          minW={0}
-        >
-          <Avatar size={"sm"} src={userData?.profilePictureUrl} />
-        </MenuButton>
-        <MenuList>
-          {userData?.roles?.length && isAdmin() ? (
-            <MenuItem as={RouteLink} to="/admin">
-              Admin
-            </MenuItem>
-          ) : (
-            <></>
-          )}
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    dispatch(setLoggedInUser({ ...emptyUserState }));
+    navigate("/");
+  };
 
-          <MenuItem as={RouteLink} to="/account">
-            My Account
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem as={RouteLink} to="/account/logout">
-            Logout
-          </MenuItem>
-        </MenuList>
-      </Menu>
-    </Box>
-  );
+  const showMenuForLoggedInUser = () => {
+    console.log("In logged in menu: " + userData.email);
+    return (
+      <Box>
+        <Menu>
+          <MenuButton
+            as={Button}
+            rounded={"full"}
+            variant={"link"}
+            cursor={"pointer"}
+            minW={0}
+          >
+            <Avatar size={"sm"} src={""} />
+          </MenuButton>
+          <MenuList>
+            {userData?.roles?.length && isAdmin() ? (
+              <MenuItem as={RouteLink} to="/admin">
+                Admin
+              </MenuItem>
+            ) : (
+              <></>
+            )}
+
+            <MenuItem as={RouteLink} to="/account">
+              My Account
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
+    );
+  };
 
   const showMenuForPublicUser = () => (
     <>
@@ -179,9 +188,9 @@ export default function TopNavbar() {
     </>
   );
 
-  const showSignInMenu = () => (
-    <>{token ? showMenuForLoggedInUser() : showMenuForPublicUser()}</>
-  );
+  // const showSignInMenu = () => (
+  //   <>{userData.email ? showMenuForLoggedInUser() : showMenuForPublicUser()}</>
+  // );
 
   return (
     <Box>
@@ -232,7 +241,9 @@ export default function TopNavbar() {
           direction={"row"}
           spacing={6}
         >
-          {showSignInMenu()}
+          {/* {showSignInMenu()} */}
+          {userData.email && showMenuForLoggedInUser()}
+          {!userData.email && showMenuForPublicUser()}
         </Stack>
       </Flex>
 

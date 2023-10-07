@@ -95,14 +95,14 @@ namespace api.Services.Implementations
             }
         }
 
-        public async Task<UserResponseDto> GetLoggedInUser()
+        public async Task<AuthenticationResponseDto> GetLoggedInUser()
         {
             //_userManager.Get
             var userEntity = await _userManager.FindByNameAsync(UserName);
             if (userEntity == null)
                 throw new NotFoundException("User not found");
 
-            var userDto = _mapper.Map<UserResponseDto>(userEntity);
+            var userDto = _mapper.Map<AuthenticationResponseDto>(userEntity);
             userDto.Roles = await _userManager.GetRolesAsync(userEntity);
             return userDto;
         }
@@ -170,19 +170,20 @@ namespace api.Services.Implementations
 
             var authClaims = new List<Claim>
                 {
-                    //new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim("username", user.UserName),
-                    new Claim("email", user.Email),
-                    //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim("userid", user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    //new Claim("userName", user.UserName),
+                    //new Claim("email", user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    //new Claim("id", user.Id.ToString()),
                 };
 
             string roles = "";
             foreach (var userRole in userRoles)
             {
                 roles += userRole + ",";
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
-            authClaims.Add(new Claim("roles", roles));
+            //authClaims.Add(new Claim("roles", roles));
 
             var token = CreateToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);

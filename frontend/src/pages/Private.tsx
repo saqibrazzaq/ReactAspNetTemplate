@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
-import { WeatherApi } from '../api/WeatherApi';
-import { AuthApi } from '../api/AuthApi';
+import React, { useEffect } from "react";
+import { WeatherApi } from "../api/WeatherApi";
+import { AuthApi } from "../api/AuthApi";
+import toastNotify from "../Helper/toastNotify";
 
 const Private = () => {
   useEffect(() => {
-    AuthApi.userInfo().then(res => {
-      console.log(res)
-    })
+    AuthApi.userInfo()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        toastNotify(error.message, "error");
+      });
   }, []);
-  return (
-    <div>Private</div>
-  )
-}
+  return <div>Private</div>;
+};
 
-export default Private
+export default Private;

@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Field, Formik } from "formik";
 import ChangePasswordRequestDto from "../../models/User/ChangePasswordRequestDto";
-import { useAuth } from "../../provider/authProvider";
 import Common from "../../utility/Common";
 import { AuthApi } from "../../api/AuthApi";
 import ErrorDetails from "../../models/Error/ErrorDetails";
@@ -37,7 +36,7 @@ export default function ChangePassword(): JSX.Element {
   pwdData.currentPassword = "";
   pwdData.newPassword = "";
   pwdData.confirmNewPassword = "";
-  pwdData.email = Common.user?.email;
+  pwdData.email = "Common.user?.email";
 
   // Formik validation schema
   const validationSchema = Yup.object({
@@ -83,9 +82,7 @@ export default function ChangePassword(): JSX.Element {
   };
 
   return (
-    <Box
-      p={4}
-    >
+    <Box p={4}>
       <Formik
         initialValues={pwdData}
         onSubmit={(values) => {
@@ -113,7 +110,13 @@ export default function ChangePassword(): JSX.Element {
               )}
               <FormControl isInvalid={!!errors.email && touched.email}>
                 <FormLabel htmlFor="email">Email address</FormLabel>
-                <Field disabled={true} as={Input} id="email" name="email" type="email" />
+                <Field
+                  disabled={true}
+                  as={Input}
+                  id="email"
+                  name="email"
+                  type="email"
+                />
                 <FormErrorMessage>{errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl

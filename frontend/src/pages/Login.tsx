@@ -6,15 +6,35 @@ import AuthenticationResponseDto from "../models/User/AuthenticationResponseDto"
 import ErrorDetails from "../models/Error/ErrorDetails";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Checkbox, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Image, Input, Link, Stack, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Image,
+  Input,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { Field, Formik, replace } from "formik";
-import { useAuth } from "../provider/authProvider";
+import { useDispatch } from "react-redux";
+import { setLoggedInUser } from "../storage/Redux/userAuthSlice";
+import toastNotify from "../Helper/toastNotify";
 
 YupPassword(Yup); // extend yup
 
 const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123@");
 
@@ -23,28 +43,30 @@ const Login = () => {
     AuthApi.login(values)
       .then((res) => {
         let authRes: AuthenticationResponseDto = res;
+        console.log("In login.tsx");
         console.log(authRes);
-        localStorage.setItem("token", authRes.accessToken ?? "")
-        localStorage.setItem("refreshToken", authRes.refreshToken ?? "")
-        updateUserInfoAndGotoHomepage();
+        localStorage.setItem("token", authRes.accessToken ?? "");
+        localStorage.setItem("refreshToken", authRes.refreshToken ?? "");
+        dispatch(setLoggedInUser(authRes));
+        navigate("/");
       })
       .catch((err) => {
         let errDetails: ErrorDetails = err?.response?.data;
         setError(errDetails?.Message || "Login service failed.");
         console.log("Error: " + err?.response?.data?.Message);
+        toastNotify(errDetails?.Message ?? "", "error");
       });
   };
 
-  const updateUserInfoAndGotoHomepage = () => {
-    AuthApi.userInfo().then(res => {
-      localStorage.setItem("user", JSON.stringify(res));
+  // const updateUserInfoAndGotoHomepage = () => {
+  //   AuthApi.userInfo().then((res) => {
+  //     localStorage.setItem("user", JSON.stringify(res));
 
-      setTimeout(() => {
-        navigate("/", {replace: true});
-      }, 1 * 1000);
-      
-    })
-  }
+  //     setTimeout(() => {
+  //       navigate("/", { replace: true });
+  //     }, 1 * 1000);
+  //   });
+  // };
 
   // Formik validation schema
   const validationSchema = Yup.object({
@@ -72,62 +94,54 @@ const Login = () => {
         >
           {({ handleSubmit, errors, touched }) => (
             <form onSubmit={handleSubmit}>
-                <Heading fontSize={"2xl"}>Sign in to your account</Heading>
-                {error && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    <AlertTitle>Login failed</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <FormControl isInvalid={!!errors.email && touched.email}>
-                  <FormLabel htmlFor="email">Email address</FormLabel>
-                  <Field as={Input} id="email" name="email" type="email" />
-                  <FormErrorMessage>{errors.email}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors.password && touched.password}>
-                  <FormLabel htmlFor="password">Password</FormLabel>
-                  <Field
-                    as={Input}
-                    id="password"
-                    name="password"
-                    type="password"
-                  />
-                  <FormErrorMessage>{errors.password}</FormErrorMessage>
-                </FormControl>
-                <Stack spacing={6}>
-                  <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
-                    justify={"space-between"}
-                  >
-                    <Checkbox>Remember me</Checkbox>
-                    <Link
-                      as={RouteLink}
-                      to="/forgot-password"
-                      color={"blue.500"}
-                    >
-                      Forgot password?
-                    </Link>
-                  </Stack>
-                  <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
-                    justify={"space-between"}
-                  >
-                    <Text>Don't have an account?</Text>
-                    <Link
-                      as={RouteLink}
-                      to="/register"
-                      color={"blue.500"}
-                    >
-                      Create Account
-                    </Link>
-                  </Stack>
-                  <Button type="submit" colorScheme={"blue"} variant={"solid"}>
-                    Sign in
-                  </Button>
+              <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+              {error && (
+                <Alert status="error">
+                  <AlertIcon />
+                  <AlertTitle>Login failed</AlertTitle>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              <FormControl isInvalid={!!errors.email && touched.email}>
+                <FormLabel htmlFor="email">Email address</FormLabel>
+                <Field as={Input} id="email" name="email" type="email" />
+                <FormErrorMessage>{errors.email}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.password && touched.password}>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <Field
+                  as={Input}
+                  id="password"
+                  name="password"
+                  type="password"
+                />
+                <FormErrorMessage>{errors.password}</FormErrorMessage>
+              </FormControl>
+              <Stack spacing={6}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                  <Link as={RouteLink} to="/forgot-password" color={"blue.500"}>
+                    Forgot password?
+                  </Link>
                 </Stack>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Text>Don't have an account?</Text>
+                  <Link as={RouteLink} to="/register" color={"blue.500"}>
+                    Create Account
+                  </Link>
+                </Stack>
+                <Button type="submit" colorScheme={"blue"} variant={"solid"}>
+                  Sign in
+                </Button>
+              </Stack>
             </form>
           )}
         </Formik>

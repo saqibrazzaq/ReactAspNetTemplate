@@ -17,7 +17,7 @@ namespace api.Services.Interfaces
         Task ChangePassword(ChangePasswordRequestDto dto);
         ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>
             SearchUsers(SearchUsersRequestDto dto, bool trackChanges);
-        Task<UserResponseDto> GetLoggedInUser();
+        Task<AuthenticationResponseDto> GetLoggedInUser();
         Task<UserResponseDto> FindByUsername(FindByUsernameRequestDto dto);
         Task UpdateProfilePicture(IFormFile formFile);
     }
