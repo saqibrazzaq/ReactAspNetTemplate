@@ -1,5 +1,9 @@
-import axios from 'axios';
-import Common from '../utility/Common';
+import axios from "axios";
+import Common from "../utility/Common";
+import AuthenticationResponseDto from "../models/User/AuthenticationResponseDto";
+import { useSelector } from "react-redux";
+import { RootState } from "../storage/Redux/store";
+import { useNavigate } from "react-router-dom";
 
 const axiosInstance = axios.create({
   baseURL: Common.API_BASE_URL,
@@ -8,7 +12,7 @@ const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,19 +33,27 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const accessToken = localStorage.getItem('token');
-        const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post(Common.API_BASE_URL + '/auth/refresh-token', { accessToken, refreshToken });
-        console.log("Got new refresh token: " + response.data)
+        const userData: AuthenticationResponseDto = useSelector(
+          (state: RootState) => state.userAuthStore
+        );
+        const accessToken = localStorage.getItem("token");
+        const refreshToken = localStorage.getItem("refreshToken");
+        const response = await axios.post(
+          Common.API_BASE_URL + "/auth/refresh-token",
+          { accessToken, refreshToken }
+        );
+        console.log("Got new token: " + response.data);
         const token = response.data.accessToken;
 
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
 
         // Retry the original request with the new token
         originalRequest.headers.Authorization = `Bearer ${token}`;
         return axios(originalRequest);
       } catch (error) {
         // Handle refresh token error or redirect to login
+        console.error("Could not refresh token");
+        // window.location.href = "/login";
       }
     }
 
@@ -49,4 +61,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance
+export default axiosInstance;

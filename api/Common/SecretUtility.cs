@@ -26,11 +26,11 @@
             }
         }
 
-        public static string? JWTRefreshTokenValidityInDays
+        public static string? JWTRefreshTokenValidityInMinutes
         {
             get
             {
-                return Environment.GetEnvironmentVariable("JWT.RefreshTokenValidityInDays");
+                return Environment.GetEnvironmentVariable("JWT.RefreshTokenValidityInMinutes");
             }
         }
 

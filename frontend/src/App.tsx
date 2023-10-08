@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { AuthApi } from "./api/AuthApi";
 import { setLoggedInUser } from "./storage/Redux/userAuthSlice";
 import toastNotify from "./Helper/toastNotify";
+import AccountLayout from "./layout/AccountLayout/AccountLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,8 +22,8 @@ function App() {
     if (localToken) {
       AuthApi.userInfo()
         .then((res) => {
-          console.log("In App.tsx");
-          console.log(res);
+          // console.log("In App.tsx");
+          // console.log(res);
           dispatch(setLoggedInUser(res));
         })
         .catch((error) => toastNotify(error.Message));
@@ -37,6 +38,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/public" element={<Public />} />
           <Route path="/private" element={<Private />} />
+          <Route path="/account/*" element={<AccountLayout />} />
         </Routes>
       </div>
       <Footer />

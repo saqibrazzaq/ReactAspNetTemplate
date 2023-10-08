@@ -7,6 +7,10 @@ export const emptyUserState: AuthenticationResponseDto = {
   email: "",
   roles: [],
   emailConfirmed: false,
+  accessToken: "",
+  accountId: "",
+  fullName: "",
+  refreshToken: "",
 };
 
 export const userAuthSlice = createSlice({
@@ -21,6 +25,8 @@ export const userAuthSlice = createSlice({
       state.accountId = action.payload.accountId;
       state.emailConfirmed = action.payload.emailConfirmed;
       state.fullName = action.payload.fullName;
+      state.refreshToken = action.payload.refreshToken;
+      state.accessToken = action.payload.accessToken;
     },
   },
 });

@@ -155,8 +155,8 @@ namespace api.Services.Implementations
                 authRes.AccessToken = await GenerateAccessToken(userEntity);
                 // Update user
                 userEntity.RefreshToken = authRes.RefreshToken;
-                userEntity.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
-                    int.Parse(SecretUtility.JWTRefreshTokenValidityInDays));
+                userEntity.RefreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(
+                    int.Parse(SecretUtility.JWTRefreshTokenValidityInMinutes));
                 await _userManager.UpdateAsync(userEntity);
 
                 return authRes;
@@ -197,7 +197,7 @@ namespace api.Services.Implementations
             var token = new JwtSecurityToken(
                 issuer: SecretUtility.JwtValidIssuer,
                 audience: SecretUtility.JwtValidAudience,
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(tokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
@@ -237,7 +237,7 @@ namespace api.Services.Implementations
             var userEntity = await _userManager.FindByNameAsync(username);
 
             if (userEntity == null || userEntity.RefreshToken != dto.RefreshToken
-                || userEntity.RefreshTokenExpiryTime <= DateTime.Now)
+                || userEntity.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 throw new BadRequestException("Invalid refresh token");
             }

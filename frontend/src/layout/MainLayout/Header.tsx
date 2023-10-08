@@ -83,8 +83,8 @@ export default function Header() {
     (state: RootState) => state.userAuthStore
   );
   const navigate = useNavigate();
-  console.log("In header");
-  console.log(userData);
+  // console.log("In header");
+  // console.log(userData);
 
   useEffect(() => {
     setNavItems(NAV_ITEMS);
@@ -133,7 +133,7 @@ export default function Header() {
   };
 
   const showMenuForLoggedInUser = () => {
-    console.log("In logged in menu: " + userData.email);
+    // console.log("In logged in menu: " + userData.email);
     return (
       <Box>
         <Menu>

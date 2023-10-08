@@ -74,7 +74,7 @@ namespace api.Controllers
             {
                 HttpOnly = true,
                 Expires = DateTimeOffset.UtcNow.AddDays(int.Parse(
-                    SecretUtility.JWTRefreshTokenValidityInDays)),
+                    SecretUtility.JWTRefreshTokenValidityInMinutes)),
                 SameSite = SameSiteMode.None,
                 Secure = true
             };

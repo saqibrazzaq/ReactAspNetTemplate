@@ -43,8 +43,8 @@ const Login = () => {
     AuthApi.login(values)
       .then((res) => {
         let authRes: AuthenticationResponseDto = res;
-        console.log("In login.tsx");
-        console.log(authRes);
+        // console.log("In login.tsx");
+        // console.log(authRes);
         localStorage.setItem("token", authRes.accessToken ?? "");
         localStorage.setItem("refreshToken", authRes.refreshToken ?? "");
         dispatch(setLoggedInUser(authRes));
