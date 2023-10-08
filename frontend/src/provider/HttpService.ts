@@ -33,16 +33,13 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const userData: AuthenticationResponseDto = useSelector(
-          (state: RootState) => state.userAuthStore
-        );
         const accessToken = localStorage.getItem("token");
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await axios.post(
           Common.API_BASE_URL + "/auth/refresh-token",
           { accessToken, refreshToken }
         );
-        console.log("Got new token: " + response.data);
+        console.log("Got new token: " + response.data.accessToken);
         const token = response.data.accessToken;
 
         localStorage.setItem("token", token);
@@ -54,6 +51,7 @@ axiosInstance.interceptors.response.use(
         // Handle refresh token error or redirect to login
         console.error("Could not refresh token");
         // window.location.href = "/login";
+        console.log(error);
       }
     }
 

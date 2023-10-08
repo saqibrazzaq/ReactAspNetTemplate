@@ -12,6 +12,8 @@ import { AuthApi } from "./api/AuthApi";
 import { setLoggedInUser } from "./storage/Redux/userAuthSlice";
 import toastNotify from "./Helper/toastNotify";
 import AccountLayout from "./layout/AccountLayout/AccountLayout";
+import AdminLayout from "./layout/AdminLayout/AdminLayout";
+import AccessDenied from "./pages/AccessDenied";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +41,8 @@ function App() {
           <Route path="/public" element={<Public />} />
           <Route path="/private" element={<Private />} />
           <Route path="/account/*" element={<AccountLayout />} />
+          <Route path="/admin/*" element={<AdminLayout />} />
+          <Route path="/access-denied" element={<AccessDenied />} />
         </Routes>
       </div>
       <Footer />

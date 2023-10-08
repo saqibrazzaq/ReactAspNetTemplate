@@ -8,36 +8,35 @@ import { AiOutlineUnlock } from "react-icons/ai";
 import AccountHome from "../../pages/Account/AccountHome";
 import ChangePassword from "../../pages/Account/ChangePassword";
 import NotFound from "../../pages/NotFound";
-import withAuth from "../../hoc/withAuth";
-import VerifyAccount from "../../pages/Account/VerifyAccount";
+import AdminHome from "../../pages/Admin/AdminHome";
+import withAdminAuth from "../../hoc/withAdminAuth";
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, href: "/account" },
+  { name: "Home", icon: FiHome, href: "/admin" },
   {
-    name: "Change Password",
+    name: "Admin 1",
     icon: AiOutlineUnlock,
-    href: "/account/change-password",
+    href: "/admin/1",
   },
   {
-    name: "Verify Account",
+    name: "Admin 2",
     icon: MdOutlineVerifiedUser,
-    href: "/account/verify-account",
+    href: "/admin/2",
   },
-  { name: "Profile Picture", icon: MdPerson, href: "/account/profile-picture" },
+  { name: "Admin 3", icon: MdPerson, href: "/admin/3" },
 ];
 
-const AccountLayout = () => {
+const AdminLayout = () => {
   return (
     <Flex mt="2">
       <Box w="250px">
-        <LeftSideMenu menuHeading="Account" menuItems={LinkItems} />
+        <LeftSideMenu menuHeading="Admin" menuItems={LinkItems} />
       </Box>
       <Center bg="gray.300" w="1px"></Center>
       <Box flex="1">
         <Routes>
-          <Route path="/" element={<AccountHome />} />
+          <Route path="/" element={<AdminHome />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
@@ -45,4 +44,4 @@ const AccountLayout = () => {
   );
 };
 
-export default withAuth(AccountLayout);
+export default withAdminAuth(AdminLayout);

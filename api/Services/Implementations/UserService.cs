@@ -183,7 +183,7 @@ namespace api.Services.Implementations
                 roles += userRole + ",";
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
-            //authClaims.Add(new Claim("roles", roles));
+            authClaims.Add(new Claim("roles", roles));
 
             var token = CreateToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -242,7 +242,8 @@ namespace api.Services.Implementations
                 throw new BadRequestException("Invalid refresh token");
             }
 
-            var newAccessToken = CreateToken(principal.Claims.ToList());
+            //var newAccessToken = CreateToken(principal.Claims.ToList());
+            var newAccessToken = await GenerateAccessToken(userEntity);
             //var newRefreshToken = GenerateRefreshToken();
 
             // Update user repository
@@ -255,7 +256,8 @@ namespace api.Services.Implementations
 
             return new TokenDto
             {
-                AccessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+                //AccessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+                AccessToken = newAccessToken,
                 //RefreshToken = dto.RefreshToken,
             };
         }
