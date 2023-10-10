@@ -14,6 +14,8 @@ import toastNotify from "./Helper/toastNotify";
 import AccountLayout from "./layout/AccountLayout/AccountLayout";
 import AdminLayout from "./layout/AdminLayout/AdminLayout";
 import AccessDenied from "./pages/AccessDenied";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +40,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/public" element={<Public />} />
           <Route path="/private" element={<Private />} />
           <Route path="/account/*" element={<AccountLayout />} />

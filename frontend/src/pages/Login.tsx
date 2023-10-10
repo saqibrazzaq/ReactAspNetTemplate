@@ -36,7 +36,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123@");
+  let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123!");
 
   const submitForm = (values: UserLoginDto) => {
     setError("");

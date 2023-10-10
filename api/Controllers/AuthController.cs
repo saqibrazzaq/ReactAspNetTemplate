@@ -68,6 +68,24 @@ namespace api.Controllers
             return Ok();
         }
 
+        [HttpGet("send-forgot-password-email")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> SendForgotPasswordEmail(
+            [FromQuery] SendForgotPasswordEmailRequestDto dto)
+        {
+            await _userService.SendForgotPasswordEmail(dto);
+            return Ok();
+        }
+
+        [HttpPost("reset-password")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ResetPassword
+            ([FromBody] ResetPasswordRequestDto dto)
+        {
+            await _userService.ResetPassword(dto);
+            return Ok();
+        }
+
         private void setRefreshTokenCookie(string? refreshToken)
         {
             var cookieOptions = new CookieOptions

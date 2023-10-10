@@ -148,6 +148,7 @@ namespace api.Services.Implementations
                     Id = userEntity.Id,
                     FullName = userEntity.FullName,
                     UserName = userEntity.UserName,
+                    ProfilePictureUrl = userEntity.ProfilePictureUrl,
                 };
 
                 // Generate access/refresh tokens
