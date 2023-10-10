@@ -22,4 +22,14 @@ export const UserApi = {
 
     return response.data;
   },
+  updateProfilePicture: async function (data: FormData) {
+    const response = await axiosInstance.request({
+      url: "/Users/update-profile-picture",
+      method: "POST",
+      data: data,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response.data;
+  },
 };

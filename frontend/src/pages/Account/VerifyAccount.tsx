@@ -59,7 +59,7 @@ const VerifyAccount = () => {
     setVerifyEmailError("");
     setVerifyEmailSuccess("");
     data.pinCode = pinCodeValue;
-    console.log(data);
+    // console.log(data);
     UserApi.verifyEmail(data)
       .then((res) => {
         // console.log("Email verified successfully.");
@@ -70,7 +70,7 @@ const VerifyAccount = () => {
       })
       .catch((err) => {
         let errDetails: ErrorDetails = err?.response?.data;
-        console.error("Error: " + err);
+        // console.error("Error: " + err);
         setVerifyEmailError(errDetails?.Message || "Service failed.");
         toastNotify(errDetails.Message || "Service failed", "error");
       });
@@ -84,8 +84,8 @@ const VerifyAccount = () => {
     setSendEmailError("Account is not verified.");
     AuthApi.userInfo()
       .then((res) => {
-        console.log("Load user info");
-        console.log(res);
+        // console.log("Load user info");
+        // console.log(res);
         setUser(res);
       })
       .catch((err) => {

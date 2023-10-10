@@ -10,6 +10,7 @@ import ChangePassword from "../../pages/Account/ChangePassword";
 import NotFound from "../../pages/NotFound";
 import withAuth from "../../hoc/withAuth";
 import VerifyAccount from "../../pages/Account/VerifyAccount";
+import ProfilePicture from "../../pages/Account/ProfilePicture";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/account" },
@@ -38,6 +39,7 @@ const AccountLayout = () => {
           <Route path="/" element={<AccountHome />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
+          <Route path="/profile-picture" element={<ProfilePicture />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

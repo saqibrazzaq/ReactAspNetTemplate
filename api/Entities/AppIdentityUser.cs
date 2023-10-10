@@ -9,7 +9,7 @@ namespace api.Entities
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public string? EmailVerificationToken { get; set; }
         public DateTime? EmailVerificationTokenExpiryTime { get; set; }
-        public string? ProfilePictureUrl { get; set; }
+        public string ProfilePictureUrl { get; set; } = "";
         public string? ProfilePictureCloudinaryId { get; set; }
         public string FullName { get; set; } = "";
 

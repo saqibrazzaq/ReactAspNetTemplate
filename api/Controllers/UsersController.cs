@@ -34,5 +34,13 @@ namespace api.Controllers
             await _userService.SendVerificationEmail();
             return Ok("Verification email sent.");
         }
+
+        [HttpPost("update-profile-picture")]
+        [Authorize(Roles = Constants.AllRoles)]
+        public async Task<IActionResult> UpdateProfilePicture()
+        {
+            await _userService.UpdateProfilePicture(Request.Form.Files[0]);
+            return NoContent();
+        }
     }
 }

@@ -144,7 +144,7 @@ export default function Header() {
             cursor={"pointer"}
             minW={0}
           >
-            <Avatar size={"sm"} src={""} />
+            <Avatar size={"sm"} src={userData.profilePictureUrl} />
           </MenuButton>
           <MenuList>
             {userData?.roles?.length && isAdmin() ? (

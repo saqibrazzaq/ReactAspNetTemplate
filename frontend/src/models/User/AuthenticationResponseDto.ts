@@ -8,4 +8,5 @@ export default class AuthenticationResponseDto {
   fullName?: string;
   id?: string;
   userName?: string;
+  profilePictureUrl?: string;
 }

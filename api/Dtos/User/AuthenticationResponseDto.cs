@@ -12,6 +12,7 @@ namespace api.Dtos.User
         public string? AccessToken { get; set; }
         public bool EmailConfirmed { get; set; } = false;
         public int? AccountId { get; set; }
+        public string ProfilePictureUrl { get; set; } = "";
 
         //[JsonIgnore]
         public string? RefreshToken { get; set; }

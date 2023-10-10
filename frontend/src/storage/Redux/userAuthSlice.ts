@@ -11,6 +11,7 @@ export const emptyUserState: AuthenticationResponseDto = {
   accountId: "",
   fullName: "",
   refreshToken: "",
+  profilePictureUrl: "",
 };
 
 export const userAuthSlice = createSlice({
@@ -27,6 +28,7 @@ export const userAuthSlice = createSlice({
       state.fullName = action.payload.fullName;
       state.refreshToken = action.payload.refreshToken;
       state.accessToken = action.payload.accessToken;
+      state.profilePictureUrl = action.payload.profilePictureUrl;
     },
   },
 });
