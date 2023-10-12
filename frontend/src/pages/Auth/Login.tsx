@@ -1,9 +1,9 @@
-import UserLoginDto from "../models/User/UserLoginDto";
-import { AuthApi } from "../api/AuthApi";
+import UserLoginDto from "../../models/User/UserLoginDto";
+import { AuthApi } from "../../api/AuthApi";
 import { useState } from "react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import AuthenticationResponseDto from "../models/User/AuthenticationResponseDto";
-import ErrorDetails from "../models/Error/ErrorDetails";
+import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
+import ErrorDetails from "../../models/Error/ErrorDetails";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
 import {
@@ -26,8 +26,8 @@ import {
 } from "@chakra-ui/react";
 import { Field, Formik, replace } from "formik";
 import { useDispatch } from "react-redux";
-import { setLoggedInUser } from "../storage/Redux/userAuthSlice";
-import toastNotify from "../Helper/toastNotify";
+import { setLoggedInUser } from "../../storage/Redux/userAuthSlice";
+import toastNotify from "../../Helper/toastNotify";
 
 YupPassword(Yup); // extend yup
 

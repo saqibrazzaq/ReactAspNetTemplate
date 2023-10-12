@@ -23,7 +23,7 @@ import ForgotPasswordDto from "../../models/User/ForgotPasswordDto";
 import { AuthApi } from "../../api/AuthApi";
 import toastNotify from "../../Helper/toastNotify";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
 
 const ForgotPassword = () => {

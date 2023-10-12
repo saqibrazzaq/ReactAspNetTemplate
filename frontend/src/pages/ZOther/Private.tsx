@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { WeatherApi } from "../api/WeatherApi";
-import { AuthApi } from "../api/AuthApi";
-import toastNotify from "../Helper/toastNotify";
+import { WeatherApi } from "../../api/WeatherApi";
+import { AuthApi } from "../../api/AuthApi";
+import toastNotify from "../../Helper/toastNotify";
 
 const Private = () => {
   useEffect(() => {

@@ -42,5 +42,16 @@ namespace api.Controllers
             await _userService.UpdateProfilePicture(Request.Form.Files[0]);
             return NoContent();
         }
+
+        [HttpGet("search")]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> SearchUsers(
+            [FromQuery] SearchUsersRequestDto dto)
+        {
+            var res = await _userService.SearchUsers(
+                dto, trackChanges: false);
+            return Ok(res);
+        }
     }
 }

@@ -23,7 +23,7 @@ import ResetPasswordDto from "../../models/User/ResetPasswordDto";
 import { AuthApi } from "../../api/AuthApi";
 import toastNotify from "../../Helper/toastNotify";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
 import { useNavigate } from "react-router-dom";
 YupPassword(Yup); // extend yup

@@ -1,5 +1,6 @@
 import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
 import RefreshTokenDto from "../models/User/RefreshTokenDto";
+import SearchUsersRequestParameters from "../models/User/SearchUsersRequestParameters";
 import UserLoginDto from "../models/User/UserLoginDto";
 import VerifyEmailDto from "../models/User/VerifyEmailDto";
 import axiosInstance from "../provider/HttpService";
@@ -18,6 +19,15 @@ export const UserApi = {
     const response = await axiosInstance.request({
       url: `/Users/send-verification-email`,
       method: "GET",
+    });
+
+    return response.data;
+  },
+  search: async function (data: SearchUsersRequestParameters) {
+    const response = await axiosInstance.request({
+      url: `/Users/search`,
+      method: "GET",
+      params: data,
     });
 
     return response.data;

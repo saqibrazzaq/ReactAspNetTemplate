@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { WeatherApi } from "../api/WeatherApi";
-import toastNotify from "../Helper/toastNotify";
+import { WeatherApi } from "../../api/WeatherApi";
+import toastNotify from "../../Helper/toastNotify";
 
 const Public = () => {
   useEffect(() => {

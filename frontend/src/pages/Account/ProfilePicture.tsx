@@ -22,7 +22,7 @@ import { AuthApi } from "../../api/AuthApi";
 import ErrorDetails from "../../models/Error/ErrorDetails";
 import { UserApi } from "../../api/UserApi";
 import toastNotify from "../../Helper/toastNotify";
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert } from "../../models/Error/AlertBoxes";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../../storage/Redux/userAuthSlice";

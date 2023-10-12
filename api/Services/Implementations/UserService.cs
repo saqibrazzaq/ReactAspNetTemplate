@@ -421,9 +421,12 @@ namespace api.Services.Implementations
                     result, nameof(ResetPassword)));
         }
 
-        public ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData> SearchUsers(
+        public async Task<ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>> SearchUsers(
             SearchUsersRequestDto dto, bool trackChanges)
         {
+            var userEntity = await _userManager.FindByNameAsync(UserName ?? "");
+            dto.AccountId = userEntity?.AccountId ?? 0;
+
             var usersWithMetadata = _repository.UserRepository.SearchUsers(
                 dto, trackChanges);
             var usersDto = _mapper.Map<IEnumerable<UserResponseDto>>(usersWithMetadata);

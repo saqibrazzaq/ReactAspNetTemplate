@@ -7,7 +7,7 @@ import { MdOutlineVerifiedUser, MdPerson } from "react-icons/md";
 import { AiOutlineUnlock } from "react-icons/ai";
 import AccountHome from "../../pages/Account/AccountHome";
 import ChangePassword from "../../pages/Account/ChangePassword";
-import NotFound from "../../pages/NotFound";
+import NotFound from "../../pages/ZOther/NotFound";
 import withAuth from "../../hoc/withAuth";
 import VerifyAccount from "../../pages/Account/VerifyAccount";
 import ProfilePicture from "../../pages/Account/ProfilePicture";

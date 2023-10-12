@@ -12,6 +12,9 @@ namespace api.Repository.Implementations
         {
             var itemsToReturn = items;
 
+            // Must match account id
+            itemsToReturn = itemsToReturn.Where(x => x.AccountId == searchParams.AccountId);
+
             if (string.IsNullOrWhiteSpace(searchParams.SearchText) == false)
             {
                 itemsToReturn = itemsToReturn.Where(

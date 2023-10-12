@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { AuthApi } from "../api/AuthApi";
-import RefreshTokenDto from "../models/User/RefreshTokenDto";
+import { AuthApi } from "../../api/AuthApi";
+import RefreshTokenDto from "../../models/User/RefreshTokenDto";
 
 const Refresh = () => {
   useEffect(() => {
@@ -8,9 +8,9 @@ const Refresh = () => {
       accessToken: localStorage.getItem("token") ?? "",
       refreshToken: localStorage.getItem("refreshToken") ?? "",
     };
-    AuthApi.refreshToken(data).then(res => {
+    AuthApi.refreshToken(data).then((res) => {
       const token = res.accessToken;
-      console.log(token)
+      console.log(token);
     });
   }, []);
   return <div>Refresh</div>;

@@ -23,7 +23,7 @@ import ChangePasswordRequestDto from "../../models/User/ChangePasswordRequestDto
 import Common from "../../utility/Common";
 import { AuthApi } from "../../api/AuthApi";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../components/Buttons/SubmitButton";
 
 YupPassword(Yup); // extend yup
 

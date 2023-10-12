@@ -15,7 +15,7 @@ namespace api.Services.Interfaces
         Task SendForgotPasswordEmail(SendForgotPasswordEmailRequestDto dto);
         Task ResetPassword(ResetPasswordRequestDto dto);
         Task ChangePassword(ChangePasswordRequestDto dto);
-        ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>
+        Task<ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>>
             SearchUsers(SearchUsersRequestDto dto, bool trackChanges);
         Task<AuthenticationResponseDto> GetLoggedInUser();
         Task<UserResponseDto> FindByUsername(FindByUsernameRequestDto dto);

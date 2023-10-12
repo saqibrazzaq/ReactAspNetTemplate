@@ -7,16 +7,17 @@ import { MdOutlineVerifiedUser, MdPerson } from "react-icons/md";
 import { AiOutlineUnlock } from "react-icons/ai";
 import AccountHome from "../../pages/Account/AccountHome";
 import ChangePassword from "../../pages/Account/ChangePassword";
-import NotFound from "../../pages/NotFound";
+import NotFound from "../../pages/ZOther/NotFound";
 import AdminHome from "../../pages/Admin/AdminHome";
 import withAdminAuth from "../../hoc/withAdminAuth";
+import Users from "../../pages/Admin/Users";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/admin" },
   {
-    name: "Admin 1",
+    name: "Users",
     icon: AiOutlineUnlock,
-    href: "/admin/1",
+    href: "/admin/users",
   },
   {
     name: "Admin 2",
@@ -36,7 +37,7 @@ const AdminLayout = () => {
       <Box flex="1">
         <Routes>
           <Route path="/" element={<AdminHome />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/users" element={<Users />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
