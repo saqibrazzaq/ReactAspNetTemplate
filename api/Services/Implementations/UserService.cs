@@ -86,6 +86,8 @@ namespace api.Services.Implementations
             var roles = await _userManager.GetRolesAsync(userEntity);
             if (roles.Contains(Constants.OwnerRole))
                 throw new BadRequestException("Owner user cannot be deleted");
+            if (roles.Contains(Constants.SuperAdminRole))
+                throw new BadRequestException("Super Admin user cannot be deleted");
 
             var resultUser = await _userManager.DeleteAsync(userEntity);
             if (resultUser.Succeeded == false)
@@ -120,13 +122,22 @@ namespace api.Services.Implementations
             }
         }
 
-        public async Task<UserResponseDto> FindByUsername(FindByUsernameRequestDto dto)
+        public async Task<UserResponseDto> FindByUsername(string username)
         {
-            var userEntity = await _userManager.FindByNameAsync(dto.Username);
+            // Find the user
+            var userEntity = await _userManager.FindByNameAsync(username);
             if (userEntity == null)
                 throw new NotFoundException(UserName + " Not found.");
 
+            // Find current user
+            var currentUserEntity = await _userManager.FindByNameAsync(UserName);
+            if (currentUserEntity.AccountId != userEntity.AccountId)
+            {
+                throw new Exception("Cannot find this user. It does not belong to this account");
+            }
+
             var userDto = _mapper.Map<UserResponseDto>(userEntity);
+            userDto.Roles = await _userManager.GetRolesAsync(userEntity);
             return userDto;
         }
 
@@ -290,7 +301,7 @@ namespace api.Services.Implementations
 
         public async Task<AuthenticationResponseDto> RegisterOwner(RegisterRequestDto dto)
         {
-            await CheckExistingEmailAndUsername(dto);
+            await CheckExistingEmailAndUsername(dto.Email, dto.Username);
 
             // Create account
             var freeAccount = new Account { AccountTypeId = (int)AccountTypeNames.Free };
@@ -358,13 +369,13 @@ namespace api.Services.Implementations
             return _rdm.Next(_min, _max).ToString();
         }
 
-        private async Task CheckExistingEmailAndUsername(RegisterRequestDto dto)
+        private async Task CheckExistingEmailAndUsername(string email, string username)
         {
             // Email and username must not already exist
-            if ((await checkIfEmailAlreadyExists(dto.Email)) == true)
-                throw new BadRequestException($"Email {dto.Email} is already registered. Use Forgot password if you own this account.");
-            if ((await checkIfUsernameAlreadyTaken(dto.Username)) == true)
-                throw new BadRequestException($"Username {dto.Username} is already taken.");
+            if ((await checkIfEmailAlreadyExists(email)) == true)
+                throw new BadRequestException($"Email {email} is already registered. Use Forgot password if you own this account.");
+            if ((await checkIfUsernameAlreadyTaken(username)) == true)
+                throw new BadRequestException($"Username {username} is already taken.");
         }
 
         private async Task<bool> checkIfEmailAlreadyExists(string? email)
@@ -381,26 +392,30 @@ namespace api.Services.Implementations
             return userEntity != null ? true : false;
         }
 
-        public async Task RegisterAdmin(RegisterRequestDto dto)
+        public async Task CreateUser(CreateUserRequestDto dto)
         {
-            await CheckExistingEmailAndUsername(dto);
+            await CheckExistingEmailAndUsername(dto.Email, dto.Username);
+            var currentUserEntity = await _userManager.FindByNameAsync(UserName);
 
             // Create new user
             var userEntity = new AppIdentityUser
             {
                 UserName = dto.Username,
-                Email = dto.Email
+                Email = dto.Email,
+                AccountId = currentUserEntity.AccountId,
+                FullName = dto.FullName,
             };
             var resultUser = await _userManager.CreateAsync(userEntity, dto.Password);
+
             if (resultUser.Succeeded == false)
                 throw new BadRequestException(GetFirstErrorFromIdentityResult(
-                    resultUser, nameof(RegisterAdmin)));
+                    resultUser, nameof(CreateUser)));
 
-            // Assign admin role
-            var roleResult = await _userManager.AddToRoleAsync(userEntity, Constants.AdminRole);
+            // Assign default role
+            var roleResult = await _userManager.AddToRoleAsync(userEntity, Constants.UserRole);
             if (roleResult.Succeeded == false)
                 throw new BadRequestException(GetFirstErrorFromIdentityResult(
-                    roleResult, nameof(RegisterAdmin)));
+                    roleResult, nameof(CreateUser)));
 
             await SendVerificationEmailToUser(userEntity);
         }
@@ -421,7 +436,7 @@ namespace api.Services.Implementations
                     result, nameof(ResetPassword)));
         }
 
-        public async Task<ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>> SearchUsers(
+        public async Task<ApiOkPagedResponse<IList<UserResponseDto>, MetaData>> SearchUsers(
             SearchUsersRequestDto dto, bool trackChanges)
         {
             var userEntity = await _userManager.FindByNameAsync(UserName ?? "");
@@ -429,8 +444,13 @@ namespace api.Services.Implementations
 
             var usersWithMetadata = _repository.UserRepository.SearchUsers(
                 dto, trackChanges);
-            var usersDto = _mapper.Map<IEnumerable<UserResponseDto>>(usersWithMetadata);
-            return new ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>(
+            var usersDto = _mapper.Map<IList<UserResponseDto>>(usersWithMetadata);
+            for (int i = 0; i < usersDto.Count; i++)
+            {
+                AppIdentityUser user = await _userManager.FindByNameAsync(usersDto[i].UserName);
+                usersDto[i].Roles = await _userManager.GetRolesAsync(user);
+            }
+            return new ApiOkPagedResponse<IList<UserResponseDto>, MetaData>(
                 usersDto, usersWithMetadata.MetaData);
         }
 

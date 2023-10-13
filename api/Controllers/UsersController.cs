@@ -53,5 +53,34 @@ namespace api.Controllers
                 dto, trackChanges: false);
             return Ok(res);
         }
+
+        [HttpPost]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateUser(
+            [FromBody] CreateUserRequestDto dto)
+        {
+            await _userService.CreateUser(dto);
+            return Ok();
+        }
+
+        [HttpDelete("{username}")]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        public async Task<IActionResult> DeleteUser(
+            string username)
+        {
+            await _userService.Delete(new DeleteUserRequestDto(
+                username));
+            return Ok();
+        }
+
+        [HttpGet("get/{username}")]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        public async Task<IActionResult> GetUser(
+            string username)
+        {
+            var res = await _userService.FindByUsername(username);
+            return Ok(res);
+        }
     }
 }

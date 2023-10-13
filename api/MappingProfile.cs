@@ -10,6 +10,7 @@ namespace api
             // User
             CreateMap<AppIdentityUser, AuthenticationResponseDto>();
             CreateMap<AppIdentityUser, UserResponseDto>();
+            CreateMap<CreateUserRequestDto, AppIdentityUser>();
         }
     }
 }

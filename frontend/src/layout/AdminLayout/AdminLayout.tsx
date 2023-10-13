@@ -11,6 +11,8 @@ import NotFound from "../../pages/ZOther/NotFound";
 import AdminHome from "../../pages/Admin/AdminHome";
 import withAdminAuth from "../../hoc/withAdminAuth";
 import Users from "../../pages/Admin/Users";
+import UpdateUser from "../../pages/Admin/UpdateUser";
+import DeleteUser from "../../pages/Admin/DeleteUser";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/admin" },
@@ -38,6 +40,8 @@ const AdminLayout = () => {
         <Routes>
           <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/update" element={<UpdateUser />} />
+          <Route path="/users/delete/:username" element={<DeleteUser />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

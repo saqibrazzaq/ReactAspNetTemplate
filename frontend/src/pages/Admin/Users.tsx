@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Img,
   Link,
   Spacer,
   Stack,
@@ -13,6 +14,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Tfoot,
   Th,
   Thead,
@@ -30,6 +32,7 @@ import { UserApi } from "../../api/UserApi";
 import toastNotify from "../../Helper/toastNotify";
 import GrayButton from "../../components/Buttons/GrayButton";
 import DeleteIconButton from "../../components/Buttons/DeleteIconButton";
+import RegularButton from "../../components/Buttons/RegularButton";
 
 const Users = () => {
   const [pagedRes, setPagedRes] = useState<PagedResponse<UserResponseDto>>();
@@ -72,7 +75,7 @@ const Users = () => {
     UserApi.search(searchParams)
       .then((res) => {
         //let userRes: PagedResponse<UserDto> = res;
-        // console.log(userRes.metaData);
+        console.log(res);
         setPagedRes(res);
       })
       .catch((err) => {
@@ -88,6 +91,9 @@ const Users = () => {
       </Box>
       <Spacer />
       <Box>
+        <Link as={RouteLink} to={"/admin/users/update"}>
+          <RegularButton text="Create User" />
+        </Link>
         <Link ml={2} as={RouteLink} to="/admin">
           <GrayButton />
         </Link>
@@ -100,8 +106,10 @@ const Users = () => {
       <Table variant="simple">
         <Thead>
           <Tr>
+            <Th></Th>
             <Th>Username</Th>
             <Th>Email</Th>
+            <Th>Roles</Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -109,8 +117,16 @@ const Users = () => {
           {pagedRes?.pagedList ? (
             pagedRes.pagedList.map((item) => (
               <Tr key={item.email}>
+                <Td>
+                  <Img src={item.profilePictureUrl} height={8} />
+                </Td>
                 <Td>{item.userName}</Td>
                 <Td>{item.email}</Td>
+                <Td>
+                  {item.roles?.map((role, index) => (
+                    <Text key={index}>{role + ", "}</Text>
+                  ))}
+                </Td>
                 <Td>
                   <Link
                     as={RouteLink}

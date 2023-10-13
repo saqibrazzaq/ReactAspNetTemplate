@@ -7,7 +7,7 @@ namespace api.Services.Interfaces
     {
         Task<AuthenticationResponseDto> Login(LoginRequestDto dto);
         Task<AuthenticationResponseDto> RegisterOwner(RegisterRequestDto dto);
-        Task RegisterAdmin(RegisterRequestDto dto);
+        Task CreateUser(CreateUserRequestDto dto);
         Task Delete(DeleteUserRequestDto dto);
         Task<TokenDto> RefreshToken(TokenDto dto);
         Task SendVerificationEmail();
@@ -15,10 +15,10 @@ namespace api.Services.Interfaces
         Task SendForgotPasswordEmail(SendForgotPasswordEmailRequestDto dto);
         Task ResetPassword(ResetPasswordRequestDto dto);
         Task ChangePassword(ChangePasswordRequestDto dto);
-        Task<ApiOkPagedResponse<IEnumerable<UserResponseDto>, MetaData>>
+        Task<ApiOkPagedResponse<IList<UserResponseDto>, MetaData>>
             SearchUsers(SearchUsersRequestDto dto, bool trackChanges);
         Task<AuthenticationResponseDto> GetLoggedInUser();
-        Task<UserResponseDto> FindByUsername(FindByUsernameRequestDto dto);
+        Task<UserResponseDto> FindByUsername(string username);
         Task UpdateProfilePicture(IFormFile formFile);
     }
 }
