@@ -20,10 +20,10 @@ namespace api.Controllers
             _userService = userService;
         }
 
-        [HttpPost("register-owner")]
+        [HttpPost("register")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Register(
-            [FromBody] RegisterRequestDto dto)
+            [FromBody] CreateUserRequestDto dto)
         {
             await _userService.RegisterOwner(dto);
             return Ok();

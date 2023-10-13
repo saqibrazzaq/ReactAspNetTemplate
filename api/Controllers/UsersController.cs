@@ -82,5 +82,7 @@ namespace api.Controllers
             var res = await _userService.FindByUsername(username);
             return Ok(res);
         }
+
+        
     }
 }

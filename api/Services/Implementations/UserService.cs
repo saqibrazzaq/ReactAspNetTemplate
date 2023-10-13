@@ -299,7 +299,7 @@ namespace api.Services.Implementations
 
         }
 
-        public async Task<AuthenticationResponseDto> RegisterOwner(RegisterRequestDto dto)
+        public async Task<AuthenticationResponseDto> RegisterOwner(CreateUserRequestDto dto)
         {
             await CheckExistingEmailAndUsername(dto.Email, dto.Username);
 

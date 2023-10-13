@@ -1,4 +1,5 @@
 import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
+import CreateUserRequestDto from "../models/User/CreateUserRequestDto";
 import ForgotPasswordDto from "../models/User/ForgotPasswordDto";
 import RefreshTokenDto from "../models/User/RefreshTokenDto";
 import ResetPasswordDto from "../models/User/ResetPasswordDto";
@@ -9,6 +10,15 @@ export const AuthApi = {
   login: async function (data: UserLoginDto) {
     const response = await axiosInstance.request({
       url: "/auth/login",
+      method: "POST",
+      data: data,
+    });
+
+    return response.data;
+  },
+  register: async function (data: CreateUserRequestDto) {
+    const response = await axiosInstance.request({
+      url: "/auth/register",
       method: "POST",
       data: data,
     });

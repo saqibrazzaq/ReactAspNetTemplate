@@ -75,7 +75,7 @@ const Users = () => {
     UserApi.search(searchParams)
       .then((res) => {
         //let userRes: PagedResponse<UserDto> = res;
-        console.log(res);
+        // console.log(res);
         setPagedRes(res);
       })
       .catch((err) => {

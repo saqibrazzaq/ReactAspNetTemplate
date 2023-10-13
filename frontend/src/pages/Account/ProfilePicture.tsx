@@ -42,10 +42,10 @@ const ProfilePicture = () => {
     setError("");
     AuthApi.userInfo()
       .then((res) => {
-        console.log("Load user info");
-        console.log(res);
+        // console.log("Load user info");
+        // console.log(res);
         if (res.profilePictureUrl) {
-          console.log("Profile picture set");
+          // console.log("Profile picture set");
           setImage(res.profilePictureUrl ?? "");
           dispatch(setLoggedInUser(res));
         }

@@ -6,7 +6,7 @@ namespace api.Services.Interfaces
     public interface IUserService
     {
         Task<AuthenticationResponseDto> Login(LoginRequestDto dto);
-        Task<AuthenticationResponseDto> RegisterOwner(RegisterRequestDto dto);
+        Task<AuthenticationResponseDto> RegisterOwner(CreateUserRequestDto dto);
         Task CreateUser(CreateUserRequestDto dto);
         Task Delete(DeleteUserRequestDto dto);
         Task<TokenDto> RefreshToken(TokenDto dto);
