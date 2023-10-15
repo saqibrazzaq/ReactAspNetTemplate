@@ -48,7 +48,18 @@ interface NavItem {
   slug?: string;
 }
 
-const NAV_ITEMS: Array<NavItem> = [
+const NAV_ITEMS_USER: Array<NavItem> = [
+  {
+    name: "Public",
+    href: "/public",
+  },
+  {
+    name: "Private",
+    href: "/private",
+  },
+];
+
+const NAV_ITEMS_ADMIN: Array<NavItem> = [
   {
     name: "Admin",
     href: "/admin",
@@ -65,15 +76,28 @@ const NAV_ITEMS: Array<NavItem> = [
       },
     ],
   },
+];
+
+const NAV_ITEMS_SUPERADMIN: Array<NavItem> = [
   {
-    name: "Public",
-    href: "/public",
-  },
-  {
-    name: "Private",
-    href: "/private",
+    name: "Super Admin",
+    href: "/superadmin",
+    children: [
+      {
+        name: "Super Admin 1",
+        subLabel: "Create a new Admin user",
+        href: "/superadmin/1",
+      },
+      {
+        name: "Super Admin 2",
+        subLabel: "Second page",
+        href: "/superadmin/2",
+      },
+    ],
   },
 ];
+
+// const NAV_ITEMS: Array<NavItem> = [];
 
 export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
@@ -87,8 +111,18 @@ export default function Header() {
   // console.log(userData);
 
   useEffect(() => {
-    setNavItems(NAV_ITEMS);
-  }, []);
+    if (isSuperAdmin()) {
+      setNavItems([
+        ...NAV_ITEMS_USER,
+        ...NAV_ITEMS_ADMIN,
+        ...NAV_ITEMS_SUPERADMIN,
+      ]);
+    } else if (isAdmin()) {
+      setNavItems([...NAV_ITEMS_USER, ...NAV_ITEMS_ADMIN]);
+    } else {
+      setNavItems(NAV_ITEMS_USER);
+    }
+  }, [userData]);
 
   // const loadTaxonMenu = () => {
   //   axios
@@ -113,12 +147,24 @@ export default function Header() {
   // };
 
   function isAdmin() {
+    // console.log(userData?.roles?.indexOf(Roles.Admin) ?? -1);
     if (
-      userData?.roles?.indexOf(Roles.SuperAdmin) ||
-      userData?.roles?.indexOf(Roles.Admin) ||
-      userData?.roles?.indexOf(Roles.Manager) ||
-      userData?.roles?.indexOf(Roles.Owner)
+      (userData?.roles?.indexOf(Roles.SuperAdmin) ?? -1) >= 0 ||
+      (userData?.roles?.indexOf(Roles.Admin) ?? -1) >= 0 ||
+      (userData?.roles?.indexOf(Roles.Manager) ?? -1) >= 0 ||
+      (userData?.roles?.indexOf(Roles.Owner) ?? -1) >= 0
     ) {
+      // console.log("Admin");
+      return true;
+    }
+
+    return false;
+  }
+
+  function isSuperAdmin() {
+    // console.log(userData?.roles?.indexOf(Roles.Admin) ?? -1);
+    if ((userData?.roles?.indexOf(Roles.SuperAdmin) ?? -1) >= 0) {
+      // console.log("SuperAdmin");
       return true;
     }
 
@@ -150,6 +196,13 @@ export default function Header() {
             {userData?.roles?.length && isAdmin() ? (
               <MenuItem as={RouteLink} to="/admin">
                 Admin
+              </MenuItem>
+            ) : (
+              <></>
+            )}
+            {userData?.roles?.length && isSuperAdmin() ? (
+              <MenuItem as={RouteLink} to="/superadmin">
+                Super Admin
               </MenuItem>
             ) : (
               <></>

@@ -36,6 +36,12 @@ const AccountHome = () => {
               <Box>
                 <Heading size="sm">{userInfo?.userName}</Heading>
                 <Text>{userInfo?.email}</Text>
+                <div>
+                  <Heading size={"sm"}>Roles: </Heading>
+                  {userInfo?.roles?.map((item, index) => (
+                    <Text key={index}>{item + ", "}</Text>
+                  ))}
+                </div>
               </Box>
             </Flex>
             {/* <IconButton

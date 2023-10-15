@@ -17,6 +17,7 @@ import AccessDenied from "./pages/Auth/AccessDenied";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Register from "./pages/Auth/Register";
+import SuperAdminLayout from "./layout/SuperAdminLayout/SuperAdminLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
           <Route path="/private" element={<Private />} />
           <Route path="/account/*" element={<AccountLayout />} />
           <Route path="/admin/*" element={<AdminLayout />} />
+          <Route path="/superadmin/*" element={<SuperAdminLayout />} />
           <Route path="/access-denied" element={<AccessDenied />} />
         </Routes>
       </div>
