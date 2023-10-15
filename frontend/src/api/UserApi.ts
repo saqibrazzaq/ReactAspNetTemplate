@@ -1,3 +1,4 @@
+import AddRoleRequestDto from "../models/User/AddRoleRequestDto";
 import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
 import CreateUserRequestDto from "../models/User/CreateUserRequestDto";
 import RefreshTokenDto from "../models/User/RefreshTokenDto";
@@ -64,6 +65,23 @@ export const UserApi = {
       url: "/Users",
       method: "POST",
       data: data,
+    });
+
+    return response.data;
+  },
+  addRoleToUser: async function (data: AddRoleRequestDto) {
+    const response = await axiosInstance.request({
+      url: "/Users/add-role",
+      method: "POST",
+      data: data,
+    });
+
+    return response.data;
+  },
+  getAllRoles: async function () {
+    const response = await axiosInstance.request({
+      url: `/Users/roles`,
+      method: "GET",
     });
 
     return response.data;

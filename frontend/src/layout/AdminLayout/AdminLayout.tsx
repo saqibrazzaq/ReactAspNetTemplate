@@ -13,6 +13,7 @@ import withAdminAuth from "../../hoc/withAdminAuth";
 import Users from "../../pages/Admin/Users";
 import UpdateUser from "../../pages/Admin/UpdateUser";
 import DeleteUser from "../../pages/Admin/DeleteUser";
+import UserRoles from "../../pages/Admin/UserRoles";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/admin" },
@@ -41,7 +42,8 @@ const AdminLayout = () => {
           <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/update" element={<UpdateUser />} />
-          <Route path="/users/delete/:username" element={<DeleteUser />} />
+          <Route path="/users/:username/delete" element={<DeleteUser />} />
+          <Route path="/users/:username/roles" element={<UserRoles />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

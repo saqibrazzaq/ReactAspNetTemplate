@@ -11,6 +11,7 @@
         // For controller attributes
         public const string AllRoles = SuperAdminRole + "," + OwnerRole + "," + AdminRole + "," + ManagerRole + "," + UserRole;
         public const string AllAdminRoles = SuperAdminRole + "," + OwnerRole + "," + AdminRole;
+        public const string AssignableRoles = AdminRole + "," + ManagerRole + "," + UserRole;
 
         public const string RefreshTokenCookieName = "refreshToken";
 

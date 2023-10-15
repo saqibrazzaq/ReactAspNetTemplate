@@ -20,5 +20,7 @@ namespace api.Services.Interfaces
         Task<AuthenticationResponseDto> GetLoggedInUser();
         Task<UserResponseDto> FindByUsername(string username);
         Task UpdateProfilePicture(IFormFile formFile);
+        Task AddRoleToUser(AddRoleRequestDto dto);
+        IList<RoleRes> GetAllRoles();
     }
 }

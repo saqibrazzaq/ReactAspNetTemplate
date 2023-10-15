@@ -21,7 +21,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import PagedResponse from "../../models/Others/PagedResponse";
@@ -31,11 +31,14 @@ import Common from "../../utility/Common";
 import { UserApi } from "../../api/UserApi";
 import toastNotify from "../../Helper/toastNotify";
 import GrayButton from "../../components/Buttons/GrayButton";
-import DeleteIconButton from "../../components/Buttons/DeleteIconButton";
 import RegularButton from "../../components/Buttons/RegularButton";
+import RoleIconButton from "../../components/Icons/RoleIconButton";
+import ErrorDetails from "../../models/Error/ErrorDetails";
+import DeleteIconButton from "../../components/Icons/DeleteIconButon";
 
 const Users = () => {
   const [pagedRes, setPagedRes] = useState<PagedResponse<UserResponseDto>>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     searchUsers(
@@ -79,8 +82,8 @@ const Users = () => {
         setPagedRes(res);
       })
       .catch((err) => {
-        console.log(err);
-        toastNotify("Could not search users", "error");
+        let errDetails: ErrorDetails = err?.response?.data;
+        toastNotify(errDetails?.Message ?? "Error", "error");
       });
   };
 
@@ -91,10 +94,10 @@ const Users = () => {
       </Box>
       <Spacer />
       <Box>
-        <Link as={RouteLink} to={"/admin/users/update"}>
+        <Link as={RouteLink} to={"update"}>
           <RegularButton text="Create User" />
         </Link>
-        <Link ml={2} as={RouteLink} to="/admin">
+        <Link ml={2} onClick={() => navigate(-1)}>
           <GrayButton />
         </Link>
       </Box>
@@ -103,7 +106,7 @@ const Users = () => {
 
   const displayUsers = () => (
     <TableContainer>
-      <Table variant="simple">
+      <Table variant="simple" size={"sm"}>
         <Thead>
           <Tr>
             <Th></Th>
@@ -128,10 +131,10 @@ const Users = () => {
                   ))}
                 </Td>
                 <Td>
-                  <Link
-                    as={RouteLink}
-                    to={"/admin/users/delete/" + item.userName}
-                  >
+                  <Link as={RouteLink} to={item.userName + "/roles"}>
+                    <RoleIconButton />
+                  </Link>
+                  <Link as={RouteLink} ms={2} to={item.userName + "/delete"}>
                     <DeleteIconButton />
                   </Link>
                 </Td>

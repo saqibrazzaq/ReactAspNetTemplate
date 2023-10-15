@@ -126,15 +126,9 @@ namespace api.Services.Implementations
         {
             // Find the user
             var userEntity = await _userManager.FindByNameAsync(username);
-            if (userEntity == null)
-                throw new NotFoundException(UserName + " Not found.");
-
             // Find current user
             var currentUserEntity = await _userManager.FindByNameAsync(UserName);
-            if (currentUserEntity.AccountId != userEntity.AccountId)
-            {
-                throw new Exception("Cannot find this user. It does not belong to this account");
-            }
+            ValidateUserAccount(currentUserEntity, userEntity);
 
             var userDto = _mapper.Map<UserResponseDto>(userEntity);
             userDto.Roles = await _userManager.GetRolesAsync(userEntity);
@@ -539,6 +533,46 @@ namespace api.Services.Implementations
             userEntity.EmailVerificationToken = null;
             userEntity.EmailVerificationTokenExpiryTime = null;
             await _userManager.UpdateAsync(userEntity);
+        }
+
+        public async Task AddRoleToUser(AddRoleRequestDto dto)
+        {
+            if (canAddRole(dto.RoleName) == false)
+                throw new Exception("Cannot add Role " + dto.RoleName + " to user.");
+            var currentUserEntity = await _userManager.FindByNameAsync(UserName);
+            var userEntity = await _userManager.FindByNameAsync(dto.UserName);
+            ValidateUserAccount(currentUserEntity, userEntity);
+
+            var result = await _userManager.AddToRoleAsync(userEntity, dto.RoleName);
+            if (result.Succeeded == false)
+                throw new Exception(result.Errors.FirstOrDefault().Description);
+        }
+
+        private void ValidateUserAccount(AppIdentityUser? currentUserEntity, AppIdentityUser? userEntity)
+        {
+            if (userEntity == null)
+                throw new Exception("User not found");
+            if (currentUserEntity == null)
+                throw new Exception("User not found");
+            if (userEntity.AccountId != currentUserEntity.AccountId)
+                throw new Exception("User does not belong to this account.");
+        }
+
+        private bool canAddRole(string? roleName)
+        {
+            var roles = Constants.AssignableRoles.Split(',');
+            var found = roles.Where(x => x ==  roleName).FirstOrDefault();
+            if (found == null)
+                return false;
+            else
+                return true;
+        }
+
+        public IList<RoleRes> GetAllRoles()
+        {
+            var roles = Constants.AssignableRoles.Split(',');
+            var list = roles.Select(x => new RoleRes { RoleName = x }).ToList();
+            return list;
         }
     }
 }

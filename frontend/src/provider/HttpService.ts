@@ -39,7 +39,8 @@ axiosInstance.interceptors.response.use(
           Common.API_BASE_URL + "/auth/refresh-token",
           { accessToken, refreshToken }
         );
-        console.log("Got new token: " + response.data.accessToken);
+        // console.log("Got new token: " + response.data.accessToken);
+        console.log("got new token.");
         const token = response.data.accessToken;
 
         localStorage.setItem("token", token);

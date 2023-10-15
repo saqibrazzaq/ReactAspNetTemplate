@@ -64,6 +64,16 @@ namespace api.Controllers
             return Ok();
         }
 
+        [HttpPost("add-role")]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> AddRoleToUser(
+            [FromBody] AddRoleRequestDto dto)
+        {
+            await _userService.AddRoleToUser(dto);
+            return Ok();
+        }
+
         [HttpDelete("{username}")]
         [Authorize(Roles = Constants.AllAdminRoles)]
         public async Task<IActionResult> DeleteUser(
@@ -83,6 +93,12 @@ namespace api.Controllers
             return Ok(res);
         }
 
-        
+        [HttpGet("roles")]
+        [Authorize(Roles =Constants.AllAdminRoles)]
+        public IActionResult GetAllRoles()
+        {
+            var res = _userService.GetAllRoles();
+            return Ok(res);
+        }
     }
 }
