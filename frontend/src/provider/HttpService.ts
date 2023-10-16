@@ -1,9 +1,5 @@
 import axios from "axios";
 import Common from "../utility/Common";
-import AuthenticationResponseDto from "../models/User/AuthenticationResponseDto";
-import { useSelector } from "react-redux";
-import { RootState } from "../storage/Redux/store";
-import { useNavigate } from "react-router-dom";
 
 const axiosInstance = axios.create({
   baseURL: Common.API_BASE_URL,

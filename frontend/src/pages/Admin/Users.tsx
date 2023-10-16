@@ -22,34 +22,27 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { MdDeleteOutline } from "react-icons/md";
-import { AiFillDelete } from "react-icons/ai";
-import PagedResponse from "../../models/Others/PagedResponse";
-import UserResponseDto from "../../models/User/UserResponseDto";
-import SearchUsersRequestParameters from "../../models/User/SearchUsersRequestParameters";
-import Common from "../../utility/Common";
 import { UserApi } from "../../api/UserApi";
-import toastNotify from "../../Helper/toastNotify";
-import GrayButton from "../../components/Buttons/GrayButton";
-import RegularButton from "../../components/Buttons/RegularButton";
-import RoleIconButton from "../../components/Icons/RoleIconButton";
+import { PagedResponse } from "../../models/Request";
+import { SearchUsersReq, UserRes } from "../../models/User";
+import { Common } from "../../utility";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import DeleteIconButton from "../../components/Icons/DeleteIconButon";
+import { toastNotify } from "../../Helper";
+import { GrayButton, RegularButton } from "../../components/Buttons";
+import { DeleteIconButton, RoleIconButton } from "../../components/Icons";
 
 const Users = () => {
-  const [pagedRes, setPagedRes] = useState<PagedResponse<UserResponseDto>>();
+  const [pagedRes, setPagedRes] = useState<PagedResponse<UserRes>>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    searchUsers(
-      new SearchUsersRequestParameters("", 1, Common.DEFAULT_PAGE_SIZE, "")
-    );
+    searchUsers(new SearchUsersReq("", 1, Common.DEFAULT_PAGE_SIZE, ""));
   }, []);
 
   const previousPage = () => {
     if (pagedRes?.metaData) {
       let previousPageNumber = (pagedRes?.metaData?.currentPage || 2) - 1;
-      let searchParams = new SearchUsersRequestParameters(
+      let searchParams = new SearchUsersReq(
         "",
         previousPageNumber,
         Common.DEFAULT_PAGE_SIZE,
@@ -63,7 +56,7 @@ const Users = () => {
   const nextPage = () => {
     if (pagedRes?.metaData) {
       let nextPageNumber = (pagedRes?.metaData?.currentPage || 0) + 1;
-      let searchParams = new SearchUsersRequestParameters(
+      let searchParams = new SearchUsersReq(
         "",
         nextPageNumber,
         Common.DEFAULT_PAGE_SIZE,
@@ -74,7 +67,7 @@ const Users = () => {
     }
   };
 
-  const searchUsers = (searchParams: SearchUsersRequestParameters) => {
+  const searchUsers = (searchParams: SearchUsersReq) => {
     UserApi.search(searchParams)
       .then((res) => {
         //let userRes: PagedResponse<UserDto> = res;

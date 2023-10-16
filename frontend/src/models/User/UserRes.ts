@@ -1,6 +1,6 @@
 import Common from "../../utility/Common";
 
-export default class UserResponseDto {
+export default class UserRes {
   userName?: string;
   email?: string;
   emailConfirmed?: boolean;

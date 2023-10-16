@@ -30,20 +30,22 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouteLink, useNavigate, useParams } from "react-router-dom";
-import UserResponseDto from "../../models/User/UserResponseDto";
 import { UserApi } from "../../api/UserApi";
-import ErrorDetails from "../../models/Error/ErrorDetails";
-import toastNotify from "../../Helper/toastNotify";
-import DeleteButton from "../../components/Buttons/DeleteButton";
-import CancelButton from "../../components/Buttons/CancelButton";
-import GrayButton from "../../components/Buttons/GrayButton";
 import { ErrorAlert } from "../../models/Error/AlertBoxes";
+import { UserRes } from "../../models/User";
+import ErrorDetails from "../../models/Error/ErrorDetails";
+import { toastNotify } from "../../Helper";
+import {
+  CancelButton,
+  DeleteButton,
+  GrayButton,
+} from "../../components/Buttons";
 
 const DeleteUser = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<HTMLAnchorElement>(null);
 
-  const [user, setUser] = useState<UserResponseDto>();
+  const [user, setUser] = useState<UserRes>();
   const [error, setError] = useState("");
 
   const toast = useToast();

@@ -1,15 +1,15 @@
-import AddRoleRequestDto from "../models/User/AddRoleRequestDto";
-import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
-import CreateUserRequestDto from "../models/User/CreateUserRequestDto";
-import RefreshTokenDto from "../models/User/RefreshTokenDto";
-import RemoveRoleReq from "../models/User/RemoveRoleReq";
-import SearchUsersRequestParameters from "../models/User/SearchUsersRequestParameters";
-import UserLoginDto from "../models/User/UserLoginDto";
-import VerifyEmailDto from "../models/User/VerifyEmailDto";
-import axiosInstance from "../provider/HttpService";
+import {
+  AddRoleReq,
+  CreateUserReq,
+  RemoveRoleReq,
+  SearchUsersReq,
+  VerifyEmailReq,
+} from "../models/User";
+
+import { axiosInstance } from "../provider";
 
 export const UserApi = {
-  verifyEmail: async function (data: VerifyEmailDto) {
+  verifyEmail: async function (data: VerifyEmailReq) {
     const response = await axiosInstance.request({
       url: "/Users/verify-email",
       method: "POST",
@@ -26,7 +26,7 @@ export const UserApi = {
 
     return response.data;
   },
-  search: async function (data: SearchUsersRequestParameters) {
+  search: async function (data: SearchUsersReq) {
     const response = await axiosInstance.request({
       url: `/Users/search`,
       method: "GET",
@@ -61,7 +61,7 @@ export const UserApi = {
 
     return response.data;
   },
-  createUser: async function (data: CreateUserRequestDto) {
+  createUser: async function (data: CreateUserReq) {
     const response = await axiosInstance.request({
       url: "/Users",
       method: "POST",
@@ -70,7 +70,7 @@ export const UserApi = {
 
     return response.data;
   },
-  addRoleToUser: async function (data: AddRoleRequestDto) {
+  addRoleToUser: async function (data: AddRoleReq) {
     const response = await axiosInstance.request({
       url: "/Users/add-role",
       method: "POST",

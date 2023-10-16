@@ -32,7 +32,7 @@ import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Roles } from "../../models/User/Roles";
 import Common from "../../utility/Common";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
+import AuthenticationRes from "../../models/User/AuthenticationRes";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../storage/Redux/store";
 import {
@@ -103,7 +103,7 @@ export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const [navItems, setNavItems] = useState<Array<NavItem>>([]);
   const dispatch = useDispatch();
-  const userData: AuthenticationResponseDto = useSelector(
+  const userData: AuthenticationRes = useSelector(
     (state: RootState) => state.userAuthStore
   );
   const navigate = useNavigate();

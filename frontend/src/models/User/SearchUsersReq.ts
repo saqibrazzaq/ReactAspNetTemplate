@@ -1,6 +1,6 @@
 import PagedRequestParameters from "../Request/RequestParameters";
 
-export default class SearchUsersRequestParameters extends PagedRequestParameters {
+export default class SearchUsersReq extends PagedRequestParameters {
   searchTerm?: string;
 
   constructor(

@@ -1,8 +1,6 @@
-import UserLoginDto from "../../models/User/UserLoginDto";
 import { AuthApi } from "../../api/AuthApi";
 import { useState } from "react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
 import ErrorDetails from "../../models/Error/ErrorDetails";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
@@ -27,7 +25,8 @@ import {
 import { Field, Formik, replace } from "formik";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../../storage/Redux/userAuthSlice";
-import toastNotify from "../../Helper/toastNotify";
+import { AuthenticationRes, LoginReq } from "../../models/User";
+import { toastNotify } from "../../Helper";
 
 YupPassword(Yup); // extend yup
 
@@ -36,13 +35,13 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let loginData = new UserLoginDto("saqibrazzaq@gmail.com", "Saqib123!");
+  let loginData = new LoginReq("saqibrazzaq@gmail.com", "Saqib123!");
 
-  const submitForm = (values: UserLoginDto) => {
+  const submitForm = (values: LoginReq) => {
     setError("");
     AuthApi.login(values)
       .then((res) => {
-        let authRes: AuthenticationResponseDto = res;
+        let authRes: AuthenticationRes = res;
         // console.log("In login.tsx");
         // console.log(authRes);
         localStorage.setItem("token", authRes.accessToken ?? "");

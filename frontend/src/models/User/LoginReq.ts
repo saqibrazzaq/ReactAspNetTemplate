@@ -1,4 +1,4 @@
-export default class UserLoginDto {
+export default class LoginReq {
   email?: string;
   password?: string;
 

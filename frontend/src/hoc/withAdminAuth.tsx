@@ -1,5 +1,4 @@
 import jwt_decode from "jwt-decode";
-import Common from "../utility/Common";
 import { Roles } from "../models/User/Roles";
 
 const withAdminAuth = (WrappedComponent: any) => {

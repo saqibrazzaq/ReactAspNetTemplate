@@ -19,13 +19,13 @@ import { Field, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import ResetPasswordDto from "../../models/User/ResetPasswordDto";
 import { AuthApi } from "../../api/AuthApi";
-import toastNotify from "../../Helper/toastNotify";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
 import { useNavigate } from "react-router-dom";
+import { ResetPasswordReq } from "../../models/User";
+import { toastNotify } from "../../Helper";
+import { SubmitButton } from "../../components/Buttons";
 YupPassword(Yup); // extend yup
 
 const ResetPassword = () => {
@@ -33,14 +33,14 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const data = new ResetPasswordDto(
+  const data = new ResetPasswordReq(
     "",
     "saqibrazzaq@gmail.com",
     "Saqib123!",
     "Saqib123!"
   );
 
-  const submitForm = (values: ResetPasswordDto) => {
+  const submitForm = (values: ResetPasswordReq) => {
     setSuccess("");
     setError("");
 

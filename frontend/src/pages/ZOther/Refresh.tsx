@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { AuthApi } from "../../api/AuthApi";
-import RefreshTokenDto from "../../models/User/RefreshTokenDto";
+import { TokenRes } from "../../models/User";
 
 const Refresh = () => {
   useEffect(() => {
-    const data: RefreshTokenDto = {
+    const data: TokenRes = {
       accessToken: localStorage.getItem("token") ?? "",
       refreshToken: localStorage.getItem("refreshToken") ?? "",
     };

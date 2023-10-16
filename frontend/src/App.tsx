@@ -1,23 +1,23 @@
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { Footer, Header } from "./layout";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Auth/Login";
-import Public from "./pages/ZOther/Public";
-import Private from "./pages/ZOther/Private";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./storage/Redux/store";
 import { useEffect } from "react";
 import { AuthApi } from "./api/AuthApi";
 import { setLoggedInUser } from "./storage/Redux/userAuthSlice";
-import toastNotify from "./Helper/toastNotify";
-import AccountLayout from "./layout/AccountLayout/AccountLayout";
-import AdminLayout from "./layout/AdminLayout/AdminLayout";
-import AccessDenied from "./pages/Auth/AccessDenied";
-import ForgotPassword from "./pages/Auth/ForgotPassword";
-import ResetPassword from "./pages/Auth/ResetPassword";
-import Register from "./pages/Auth/Register";
-import SuperAdminLayout from "./layout/SuperAdminLayout/SuperAdminLayout";
+import { toastNotify } from "./Helper";
+import { Home } from "./pages/Home";
+import {
+  AccessDenied,
+  ForgotPassword,
+  Login,
+  Register,
+  ResetPassword,
+} from "./pages/Auth";
+import { Private, Public } from "./pages/ZOther";
+import { AccountLayout } from "./layout/AccountLayout";
+import { AdminLayout } from "./layout/AdminLayout";
+import { SuperAdminLayout } from "./layout/SuperAdminLayout";
 
 function App() {
   const dispatch = useDispatch();

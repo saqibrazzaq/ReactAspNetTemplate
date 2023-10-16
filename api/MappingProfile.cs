@@ -8,7 +8,7 @@ namespace api
         public MappingProfile()
         {
             // User
-            CreateMap<AppIdentityUser, AuthenticationResponseDto>();
+            CreateMap<AppIdentityUser, AuthenticationRes>();
             CreateMap<AppIdentityUser, UserRes>();
             CreateMap<CreateUserReq, AppIdentityUser>();
         }

@@ -5,12 +5,14 @@ import { FiCompass, FiHome, FiTrendingUp } from "react-icons/fi";
 import LeftSideMenu, { LinkItemProps } from "./LeftSideMenu";
 import { MdOutlineVerifiedUser, MdPerson } from "react-icons/md";
 import { AiOutlineUnlock } from "react-icons/ai";
-import AccountHome from "../../pages/Account/AccountHome";
-import ChangePassword from "../../pages/Account/ChangePassword";
-import NotFound from "../../pages/ZOther/NotFound";
-import withAuth from "../../hoc/withAuth";
-import VerifyAccount from "../../pages/Account/VerifyAccount";
-import ProfilePicture from "../../pages/Account/ProfilePicture";
+import {
+  AccountHome,
+  ChangePassword,
+  ProfilePicture,
+  VerifyAccount,
+} from "../../pages/Account";
+import { NotFound } from "../../pages/ZOther";
+import { withAuth } from "../../hoc";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/account" },

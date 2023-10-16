@@ -1,4 +1,4 @@
-export default class VerifyEmailDto {
+export default class VerifyEmailReq {
   pinCode: string;
 
   constructor(pinCode: string) {

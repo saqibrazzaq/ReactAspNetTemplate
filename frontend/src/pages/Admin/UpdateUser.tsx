@@ -19,11 +19,11 @@ import YupPassword from "yup-password";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Field, Formik } from "formik";
-import CreateUserRequestDto from "../../models/User/CreateUserRequestDto";
+import CreateUserReq from "../../models/User/CreateUserReq";
 import { UserApi } from "../../api/UserApi";
-import toastNotify from "../../Helper/toastNotify";
+import { toastNotify } from "../../Helper";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/Buttons/SubmitButton";
+import { SubmitButton } from "../../components/Buttons";
 
 YupPassword(Yup); // extend yup
 
@@ -32,7 +32,7 @@ const UpdateUser = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  let data = new CreateUserRequestDto();
+  let data = new CreateUserReq();
   data.username = "saqib1";
   data.email = "saq.ibrazzaq@gmail.com";
   data.password = "Saqib123!";
@@ -64,7 +64,7 @@ const UpdateUser = () => {
       .minSymbols(1, "At least one symbol required"),
   });
 
-  const submitForm = (values: CreateUserRequestDto) => {
+  const submitForm = (values: CreateUserReq) => {
     setError("");
     setSuccess("");
     console.log(values);

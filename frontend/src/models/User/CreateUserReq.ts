@@ -1,4 +1,4 @@
-export default class CreateUserRequestDto {
+export default class CreateUserReq {
   username?: string = "";
   email?: string = "";
   password?: string = "";

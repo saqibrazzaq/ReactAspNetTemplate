@@ -1,13 +1,15 @@
-import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
-import CreateUserRequestDto from "../models/User/CreateUserRequestDto";
-import ForgotPasswordDto from "../models/User/ForgotPasswordDto";
-import RefreshTokenDto from "../models/User/RefreshTokenDto";
-import ResetPasswordDto from "../models/User/ResetPasswordDto";
-import UserLoginDto from "../models/User/UserLoginDto";
-import axiosInstance from "../provider/HttpService";
+import {
+  ChangePasswordReq,
+  CreateUserReq,
+  LoginReq,
+  ResetPasswordReq,
+  SendForgotPasswordEmailReq,
+  TokenRes,
+} from "../models/User";
+import { axiosInstance } from "../provider";
 
 export const AuthApi = {
-  login: async function (data: UserLoginDto) {
+  login: async function (data: LoginReq) {
     const response = await axiosInstance.request({
       url: "/auth/login",
       method: "POST",
@@ -16,7 +18,7 @@ export const AuthApi = {
 
     return response.data;
   },
-  register: async function (data: CreateUserRequestDto) {
+  register: async function (data: CreateUserReq) {
     const response = await axiosInstance.request({
       url: "/auth/register",
       method: "POST",
@@ -25,7 +27,7 @@ export const AuthApi = {
 
     return response.data;
   },
-  changePassword: async function (data: ChangePasswordRequestDto) {
+  changePassword: async function (data: ChangePasswordReq) {
     const response = await axiosInstance.request({
       url: "/auth/change-password",
       method: "POST",
@@ -34,7 +36,7 @@ export const AuthApi = {
 
     return response.data;
   },
-  refreshToken: async function (data: RefreshTokenDto) {
+  refreshToken: async function (data: TokenRes) {
     const response = await axiosInstance.request({
       url: "/auth/refresh-token",
       method: "POST",
@@ -51,7 +53,7 @@ export const AuthApi = {
 
     return response.data;
   },
-  sendForgotPasswordEmail: async function (params: ForgotPasswordDto) {
+  sendForgotPasswordEmail: async function (params: SendForgotPasswordEmailReq) {
     const response = await axiosInstance.request({
       url: `/auth/send-forgot-password-email`,
       method: "GET",
@@ -60,7 +62,7 @@ export const AuthApi = {
 
     return response.data;
   },
-  resetPassword: async function (data: ResetPasswordDto) {
+  resetPassword: async function (data: ResetPasswordReq) {
     const response = await axiosInstance.request({
       url: "/auth/reset-password",
       method: "POST",

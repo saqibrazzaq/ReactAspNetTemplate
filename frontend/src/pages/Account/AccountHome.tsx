@@ -13,13 +13,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BiLike, BiChat, BiShare } from "react-icons/bi";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { AuthApi } from "../../api/AuthApi";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
+import { AuthenticationRes } from "../../models/User";
 
 const AccountHome = () => {
-  const [userInfo, setUserInfo] = useState<AuthenticationResponseDto>();
+  const [userInfo, setUserInfo] = useState<AuthenticationRes>();
   useEffect(() => {
     AuthApi.userInfo().then((res) => {
       setUserInfo(res);

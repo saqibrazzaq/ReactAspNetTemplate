@@ -98,14 +98,14 @@ namespace api.Services.Implementations
             }
         }
 
-        public async Task<AuthenticationResponseDto> GetLoggedInUser()
+        public async Task<AuthenticationRes> GetLoggedInUser()
         {
             //_userManager.Get
             var userEntity = await _userManager.FindByNameAsync(UserName);
             if (userEntity == null)
                 throw new NotFoundException("User not found");
 
-            var userDto = _mapper.Map<AuthenticationResponseDto>(userEntity);
+            var userDto = _mapper.Map<AuthenticationRes>(userEntity);
             userDto.Roles = await _userManager.GetRolesAsync(userEntity);
             return userDto;
         }
@@ -136,7 +136,7 @@ namespace api.Services.Implementations
             return userDto;
         }
 
-        public async Task<AuthenticationResponseDto> Login(LoginReq dto)
+        public async Task<AuthenticationRes> Login(LoginReq dto)
         {
             // Authenticate user
             var userEntity = await AuthenticateUser(dto.Email, dto.Password);
@@ -145,7 +145,7 @@ namespace api.Services.Implementations
             if (userEntity != null)
             {
                 // Create response with access token
-                var authRes = new AuthenticationResponseDto
+                var authRes = new AuthenticationRes
                 {
                     Email = userEntity.Email,
                     Roles = await _userManager.GetRolesAsync(userEntity),
@@ -294,7 +294,7 @@ namespace api.Services.Implementations
 
         }
 
-        public async Task<AuthenticationResponseDto> RegisterOwner(CreateUserReq dto)
+        public async Task<AuthenticationRes> RegisterOwner(CreateUserReq dto)
         {
             await CheckExistingEmailAndUsername(dto.Email, dto.Username);
 

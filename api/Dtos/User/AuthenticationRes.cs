@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class AuthenticationResponseDto
+    public class AuthenticationRes
     {
         public string FullName { get; set; } = "";
         public string? Id { get; set; }

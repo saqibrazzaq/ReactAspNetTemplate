@@ -1,4 +1,4 @@
-export default class ChangePasswordRequestDto {
+export default class ChangePasswordReq {
   email?: string;
   currentPassword?: string;
   newPassword?: string;

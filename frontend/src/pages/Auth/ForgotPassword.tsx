@@ -19,15 +19,15 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
 import { useNavigate } from "react-router-dom";
-import ForgotPasswordDto from "../../models/User/ForgotPasswordDto";
 import { AuthApi } from "../../api/AuthApi";
-import toastNotify from "../../Helper/toastNotify";
-import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
+import { SendForgotPasswordEmailReq } from "../../models/User";
+import { toastNotify } from "../../Helper";
+import ErrorDetails from "../../models/Error/ErrorDetails";
+import { SubmitButton } from "../../components/Buttons";
 
 const ForgotPassword = () => {
-  let data = new ForgotPasswordDto("saqibrazzaq@gmail.com");
+  let data = new SendForgotPasswordEmailReq("saqibrazzaq@gmail.com");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
       .email("Invalid email address"),
   });
 
-  const submitForm = (values: ForgotPasswordDto) => {
+  const submitForm = (values: SendForgotPasswordEmailReq) => {
     setError("");
     setSuccess("");
     AuthApi.sendForgotPasswordEmail(values)

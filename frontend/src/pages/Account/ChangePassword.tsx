@@ -19,11 +19,10 @@ import YupPassword from "yup-password";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Field, Formik } from "formik";
-import ChangePasswordRequestDto from "../../models/User/ChangePasswordRequestDto";
-import Common from "../../utility/Common";
 import { AuthApi } from "../../api/AuthApi";
+import { ChangePasswordReq } from "../../models/User";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import SubmitButton from "../../components/Buttons/SubmitButton";
+import { SubmitButton } from "../../components/Buttons";
 
 YupPassword(Yup); // extend yup
 
@@ -32,7 +31,7 @@ export default function ChangePassword(): JSX.Element {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  let pwdData = new ChangePasswordRequestDto();
+  let pwdData = new ChangePasswordReq();
   pwdData.currentPassword = "";
   pwdData.newPassword = "";
   pwdData.confirmNewPassword = "";
@@ -66,7 +65,7 @@ export default function ChangePassword(): JSX.Element {
       .minSymbols(1, "At least one symbol required"),
   });
 
-  const submitForm = (values: ChangePasswordRequestDto) => {
+  const submitForm = (values: ChangePasswordReq) => {
     setError("");
     setSuccess("");
     AuthApi.changePassword(values)

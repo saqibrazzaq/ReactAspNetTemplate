@@ -5,15 +5,15 @@ import { FiCompass, FiHome, FiTrendingUp } from "react-icons/fi";
 import LeftSideMenu, { LinkItemProps } from "./LeftSideMenu";
 import { MdOutlineVerifiedUser, MdPerson } from "react-icons/md";
 import { AiOutlineUnlock } from "react-icons/ai";
-import AccountHome from "../../pages/Account/AccountHome";
-import ChangePassword from "../../pages/Account/ChangePassword";
-import NotFound from "../../pages/ZOther/NotFound";
-import AdminHome from "../../pages/Admin/AdminHome";
-import withAdminAuth from "../../hoc/withAdminAuth";
-import Users from "../../pages/Admin/Users";
-import UpdateUser from "../../pages/Admin/UpdateUser";
-import DeleteUser from "../../pages/Admin/DeleteUser";
-import UserRoles from "../../pages/Admin/UserRoles";
+import {
+  AdminHome,
+  DeleteUser,
+  UpdateUser,
+  UserRoles,
+  Users,
+} from "../../pages/Admin";
+import { NotFound } from "../../pages/ZOther";
+import { withAdminAuth } from "../../hoc";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/admin" },

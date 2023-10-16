@@ -34,39 +34,28 @@ import {
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { Link as RouteLink, useNavigate, useParams } from "react-router-dom";
-import { MdDeleteOutline } from "react-icons/md";
-import { AiFillDelete } from "react-icons/ai";
-import PagedResponse from "../../models/Others/PagedResponse";
-import UserResponseDto from "../../models/User/UserResponseDto";
-import SearchUsersRequestParameters from "../../models/User/SearchUsersRequestParameters";
-import Common from "../../utility/Common";
 import { UserApi } from "../../api/UserApi";
-import toastNotify from "../../Helper/toastNotify";
-import GrayButton from "../../components/Buttons/GrayButton";
-import RegularButton from "../../components/Buttons/RegularButton";
-import RoleIconButton from "../../components/Icons/RoleIconButton";
-import { useDispatch, useSelector } from "react-redux";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
-import { RootState } from "../../storage/Redux/store";
 import { Field, Formik } from "formik";
-import AddRoleRequestDto from "../../models/User/AddRoleRequestDto";
+import { AddRoleReq, RemoveRoleReq, RoleRes, UserRes } from "../../models/User";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import RoleDropdown from "../../components/Dropdowns/RoleDropdown";
-import RoleRes from "../../models/User/RoleRes";
-import SubmitButton from "../../components/Buttons/SubmitButton";
-import DeleteIconButton from "../../components/Icons/DeleteIconButon";
-import CancelButton from "../../components/Buttons/CancelButton";
-import DeleteButton from "../../components/Buttons/DeleteButton";
-import RemoveRoleReq from "../../models/User/RemoveRoleReq";
+import { toastNotify } from "../../Helper";
+import {
+  CancelButton,
+  DeleteButton,
+  GrayButton,
+  SubmitButton,
+} from "../../components/Buttons";
+import { DeleteIconButton } from "../../components/Icons";
+import { RoleDropdown } from "../../components/Dropdowns";
 
 const UserRoles = () => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<UserResponseDto>();
+  const [userData, setUserData] = useState<UserRes>();
   const params = useParams();
   const { username } = params;
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [roleData, setRoleData] = useState<AddRoleRequestDto>(
-    new AddRoleRequestDto(username, "")
+  const [roleData, setRoleData] = useState<AddRoleReq>(
+    new AddRoleReq(username, "")
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<HTMLAnchorElement>(null);
@@ -133,7 +122,7 @@ const UserRoles = () => {
     </TableContainer>
   );
 
-  const submitForm = (values: AddRoleRequestDto) => {
+  const submitForm = (values: AddRoleReq) => {
     // console.log(values);
     UserApi.addRoleToUser(values)
       .then((res) => {

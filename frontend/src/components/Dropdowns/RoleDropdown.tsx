@@ -1,7 +1,7 @@
 import { Select } from "chakra-react-select";
 import React, { useEffect, useState } from "react";
-import RoleRes from "../../models/User/RoleRes";
 import { UserApi } from "../../api/UserApi";
+import { RoleRes } from "../../models/User";
 
 interface RoleDropdownParams {
   handleChange?: any;

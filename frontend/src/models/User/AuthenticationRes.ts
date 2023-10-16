@@ -1,4 +1,4 @@
-export default class AuthenticationResponseDto {
+export default class AuthenticationRes {
   email?: string;
   roles?: string[];
   accessToken?: string;

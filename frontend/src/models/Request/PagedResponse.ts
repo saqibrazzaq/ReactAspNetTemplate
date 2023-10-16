@@ -1,4 +1,3 @@
-
 interface MetaData {
   currentPage?: number;
   totalPages?: number;

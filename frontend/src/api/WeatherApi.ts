@@ -1,5 +1,4 @@
-import axiosInstance from "../provider/HttpService";
-
+import { axiosInstance } from "../provider";
 
 export const WeatherApi = {
   public: async function () {

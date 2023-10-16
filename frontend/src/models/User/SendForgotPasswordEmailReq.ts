@@ -1,4 +1,4 @@
-export default class ForgotPasswordDto {
+export default class SendForgotPasswordEmailReq {
   email: string;
 
   constructor(email: string) {

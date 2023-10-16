@@ -1,4 +1,4 @@
-export default class AddRoleRequestDto {
+export default class AddRoleReq {
   userName?: string = "";
   roleName?: string = "";
 

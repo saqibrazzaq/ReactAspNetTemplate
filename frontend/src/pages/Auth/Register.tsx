@@ -19,16 +19,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import SubmitButton from "../../components/Buttons/SubmitButton";
-import CreateUserRequestDto from "../../models/User/CreateUserRequestDto";
 import { AuthApi } from "../../api/AuthApi";
-import UserLoginDto from "../../models/User/UserLoginDto";
 import ErrorDetails from "../../models/Error/ErrorDetails";
-import toastNotify from "../../Helper/toastNotify";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../../storage/Redux/userAuthSlice";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
+import { CreateUserReq, LoginReq } from "../../models/User";
+import { toastNotify } from "../../Helper";
+import { SubmitButton } from "../../components/Buttons";
 
 YupPassword(Yup); // extend yup
 
@@ -39,15 +37,15 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const data = new CreateUserRequestDto();
+  const data = new CreateUserReq();
 
-  const submitForm = (values: CreateUserRequestDto) => {
+  const submitForm = (values: CreateUserReq) => {
     setError("");
     setSuccess("");
     AuthApi.register(values)
       .then((res) => {
         setSuccess("Please check email and verify your account.");
-        loginUser(new UserLoginDto(values.email ?? "", values.password ?? ""));
+        loginUser(new LoginReq(values.email ?? "", values.password ?? ""));
       })
       .catch((err) => {
         let errDetails: ErrorDetails = err?.response?.data;
@@ -56,7 +54,7 @@ const Register = () => {
       });
   };
 
-  const loginUser = (values: UserLoginDto) => {
+  const loginUser = (values: LoginReq) => {
     AuthApi.login(values)
       .then((res) => {
         // let authRes: AuthenticationResponseDto = res;

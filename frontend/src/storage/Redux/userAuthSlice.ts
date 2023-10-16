@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
+import AuthenticationRes from "../../models/User/AuthenticationRes";
 
-export const emptyUserState: AuthenticationResponseDto = {
+export const emptyUserState: AuthenticationRes = {
   userName: "",
   id: "",
   email: "",

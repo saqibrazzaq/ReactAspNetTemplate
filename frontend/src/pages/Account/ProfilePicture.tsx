@@ -19,13 +19,13 @@ import Common from "../../utility/Common";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 import { AuthApi } from "../../api/AuthApi";
-import ErrorDetails from "../../models/Error/ErrorDetails";
 import { UserApi } from "../../api/UserApi";
-import toastNotify from "../../Helper/toastNotify";
-import SubmitButton from "../../components/Buttons/SubmitButton";
 import { ErrorAlert } from "../../models/Error/AlertBoxes";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../../storage/Redux/userAuthSlice";
+import ErrorDetails from "../../models/Error/ErrorDetails";
+import { toastNotify } from "../../Helper";
+import { SubmitButton } from "../../components/Buttons";
 
 const ProfilePicture = () => {
   const [error, setError] = useState("");

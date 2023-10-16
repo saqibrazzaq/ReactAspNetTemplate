@@ -23,23 +23,23 @@ import { BsCheckCircle } from "react-icons/bs";
 import * as Yup from "yup";
 import { Field, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import AuthenticationResponseDto from "../../models/User/AuthenticationResponseDto";
-import VerifyEmailDto from "../../models/User/VerifyEmailDto";
+import AuthenticationRes from "../../models/User/AuthenticationRes";
+import VerifyEmailReq from "../../models/User/VerifyEmailReq";
 import { UserApi } from "../../api/UserApi";
-import toastNotify from "../../Helper/toastNotify";
-import ErrorDetails from "../../models/Error/ErrorDetails";
 import { AuthApi } from "../../api/AuthApi";
 import { ErrorAlert, SuccessAlert } from "../../models/Error/AlertBoxes";
+import { toastNotify } from "../../Helper";
+import ErrorDetails from "../../models/Error/ErrorDetails";
 
 const VerifyAccount = () => {
-  const [user, setUser] = useState<AuthenticationResponseDto>();
+  const [user, setUser] = useState<AuthenticationRes>();
   const [sendEmailerror, setSendEmailError] = useState("");
   const [sendEmailSuccess, setSendEmailSuccess] = useState("");
   const [verifyEmailError, setVerifyEmailError] = useState("");
   const [verifyEmailSuccess, setVerifyEmailSuccess] = useState("");
   const [pinCodeValue, setPinCodeValue] = useState("");
 
-  let data = new VerifyEmailDto("");
+  let data = new VerifyEmailReq("");
 
   const navigate = useNavigate();
 
@@ -51,11 +51,11 @@ const VerifyAccount = () => {
     //   .max(9999, "4 digit pin code required"),
   });
 
-  const submitForm = (values: VerifyEmailDto) => {
+  const submitForm = (values: VerifyEmailReq) => {
     verifyEmail(values);
   };
 
-  const verifyEmail = (values: VerifyEmailDto) => {
+  const verifyEmail = (values: VerifyEmailReq) => {
     setVerifyEmailError("");
     setVerifyEmailSuccess("");
     data.pinCode = pinCodeValue;

@@ -1,4 +1,4 @@
-export default interface RefreshTokenDto {
+export default interface TokenRes {
   accessToken?: string;
   refreshToken?: string;
 }

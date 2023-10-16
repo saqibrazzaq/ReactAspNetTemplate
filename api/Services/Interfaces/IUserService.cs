@@ -5,8 +5,8 @@ namespace api.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<AuthenticationResponseDto> Login(LoginReq dto);
-        Task<AuthenticationResponseDto> RegisterOwner(CreateUserReq dto);
+        Task<AuthenticationRes> Login(LoginReq dto);
+        Task<AuthenticationRes> RegisterOwner(CreateUserReq dto);
         Task CreateUser(CreateUserReq dto);
         Task Delete(DeleteUserReq dto);
         Task<TokenRes> RefreshToken(TokenRes dto);
@@ -17,7 +17,7 @@ namespace api.Services.Interfaces
         Task ChangePassword(ChangePasswordReq dto);
         Task<ApiOkPagedResponse<IList<UserRes>, MetaData>>
             SearchUsers(SearchUsersReq dto, bool trackChanges);
-        Task<AuthenticationResponseDto> GetLoggedInUser();
+        Task<AuthenticationRes> GetLoggedInUser();
         Task<UserRes> FindByUsername(string username);
         Task UpdateProfilePicture(IFormFile formFile);
         Task AddRoleToUser(AddRoleReq dto);
