@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class VerifyEmailRequestDto
+    public class VerifyEmailReq
     {
         [Required]
         public string? PinCode { get; set; }

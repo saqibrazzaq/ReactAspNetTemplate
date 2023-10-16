@@ -21,7 +21,7 @@ namespace api.Controllers
 
         [HttpPost("verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequestDto dto)
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailReq dto)
         {
             await _userService.VerifyEmail(dto);
             return Ok();
@@ -47,7 +47,7 @@ namespace api.Controllers
         [Authorize(Roles = Constants.AllAdminRoles)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SearchUsers(
-            [FromQuery] SearchUsersRequestDto dto)
+            [FromQuery] SearchUsersReq dto)
         {
             var res = await _userService.SearchUsers(
                 dto, trackChanges: false);
@@ -58,7 +58,7 @@ namespace api.Controllers
         [Authorize(Roles = Constants.AllAdminRoles)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateUser(
-            [FromBody] CreateUserRequestDto dto)
+            [FromBody] CreateUserReq dto)
         {
             await _userService.CreateUser(dto);
             return Ok();
@@ -68,9 +68,19 @@ namespace api.Controllers
         [Authorize(Roles = Constants.AllAdminRoles)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddRoleToUser(
-            [FromBody] AddRoleRequestDto dto)
+            [FromBody] AddRoleReq dto)
         {
             await _userService.AddRoleToUser(dto);
+            return Ok();
+        }
+
+        [HttpDelete("remove-role")]
+        [Authorize(Roles = Constants.AllAdminRoles)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> RemoveRoleFromUser(
+            [FromBody] RemoveRoleReq dto)
+        {
+            await _userService.RemoveRoleFromUser(dto);
             return Ok();
         }
 
@@ -79,7 +89,7 @@ namespace api.Controllers
         public async Task<IActionResult> DeleteUser(
             string username)
         {
-            await _userService.Delete(new DeleteUserRequestDto(
+            await _userService.Delete(new DeleteUserReq(
                 username));
             return Ok();
         }

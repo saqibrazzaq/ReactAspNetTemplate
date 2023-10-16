@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class SendForgotPasswordEmailRequestDto
+    public class SendForgotPasswordEmailReq
     {
         [Required(ErrorMessage = "Email is required")]
         [MaxLength(255, ErrorMessage = "Maximum 255 characters for Email")]

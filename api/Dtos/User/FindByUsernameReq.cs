@@ -2,15 +2,10 @@
 
 namespace api.Dtos.User
 {
-    public class DeleteUserRequestDto
+    public class FindByUsernameReq
     {
         [Required(ErrorMessage = "Username is required")]
         [MaxLength(50, ErrorMessage = "Maximum 50 characters for Username")]
         public string? Username { get; set; }
-
-        public DeleteUserRequestDto(string? username)
-        {
-            Username = username;
-        }
     }
 }

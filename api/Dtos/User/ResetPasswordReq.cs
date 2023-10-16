@@ -2,8 +2,10 @@
 
 namespace api.Dtos.User
 {
-    public class LoginRequestDto
+    public class ResetPasswordReq
     {
+        [Required]
+        public string? ForgotPasswordToken { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [MaxLength(255, ErrorMessage = "Maximum 255 characters for Email")]
         [EmailAddress]
@@ -11,5 +13,9 @@ namespace api.Dtos.User
         [Required(ErrorMessage = "Password is required")]
         [MinLength(6, ErrorMessage = "Minimum 6 characters for password")]
         public string? Password { get; set; }
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [MinLength(6, ErrorMessage = "Minimum 6 characters for confirm password")]
+        [Compare("Password", ErrorMessage = "Confirm password must match with password")]
+        public string? ConfirmPassword { get; set; }
     }
 }

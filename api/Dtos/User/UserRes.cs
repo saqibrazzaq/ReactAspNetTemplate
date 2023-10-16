@@ -1,6 +1,6 @@
 ﻿namespace api.Dtos.User
 {
-    public class UserResponseDto
+    public class UserRes
     {
         public string? UserName { get; set; }
         public string? Email { get; set; }

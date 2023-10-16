@@ -7,6 +7,6 @@ namespace api.Repository.Interfaces
     public interface IUserRepository : IRepositoryBase<AppIdentityUser>
     {
         PagedList<AppIdentityUser> SearchUsers(
-            SearchUsersRequestDto dto, bool trackChanges);
+            SearchUsersReq dto, bool trackChanges);
     }
 }

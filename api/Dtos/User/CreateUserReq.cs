@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class CreateUserRequestDto
+    public class CreateUserReq
     {
         [Required(ErrorMessage = "Username is required")]
         [MaxLength(50, ErrorMessage = "Maximum 50 characters for Username")]

@@ -13,7 +13,7 @@ namespace api.Repository.Implementations
         }
 
         public PagedList<AppIdentityUser> SearchUsers(
-            SearchUsersRequestDto userParameters, bool trackChanges)
+            SearchUsersReq userParameters, bool trackChanges)
         {
             // Find users
             var users = FindAll(trackChanges)

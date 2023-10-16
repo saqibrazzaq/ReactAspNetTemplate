@@ -23,7 +23,7 @@ namespace api.Controllers
         [HttpPost("register")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Register(
-            [FromBody] CreateUserRequestDto dto)
+            [FromBody] CreateUserReq dto)
         {
             await _userService.RegisterOwner(dto);
             return Ok();
@@ -31,7 +31,7 @@ namespace api.Controllers
 
         [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDto dto)
+        public async Task<IActionResult> Login([FromBody] LoginReq dto)
         {
             var res = await _userService.Login(dto);
             setRefreshTokenCookie(res.RefreshToken);
@@ -41,7 +41,7 @@ namespace api.Controllers
         [HttpPost("refresh-token")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RefreshToken(
-            [FromBody] TokenDto dto)
+            [FromBody] TokenRes dto)
         {
             //dto.RefreshToken = Request.Cookies[Constants.RefreshTokenCookieName];
             var res = await _userService.RefreshToken(dto);
@@ -62,7 +62,7 @@ namespace api.Controllers
         [Authorize(Roles = Constants.AllRoles)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangePassword(
-            [FromBody] ChangePasswordRequestDto dto)
+            [FromBody] ChangePasswordReq dto)
         {
             await _userService.ChangePassword(dto);
             return Ok();
@@ -71,7 +71,7 @@ namespace api.Controllers
         [HttpGet("send-forgot-password-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SendForgotPasswordEmail(
-            [FromQuery] SendForgotPasswordEmailRequestDto dto)
+            [FromQuery] SendForgotPasswordEmailReq dto)
         {
             await _userService.SendForgotPasswordEmail(dto);
             return Ok();
@@ -80,7 +80,7 @@ namespace api.Controllers
         [HttpPost("reset-password")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ResetPassword
-            ([FromBody] ResetPasswordRequestDto dto)
+            ([FromBody] ResetPasswordReq dto)
         {
             await _userService.ResetPassword(dto);
             return Ok();

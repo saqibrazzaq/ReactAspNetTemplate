@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
+    config.headers["request-startTime"] = new Date().getTime();
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -23,7 +24,19 @@ axiosInstance.interceptors.request.use(
 
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Calculate response time
+    const currentTime = new Date().getTime();
+    const startTime = response.config.headers["request-startTime"];
+    response.headers["request-duration"] = currentTime - startTime;
+
+    console.log(
+      millisToMinutesAndSeconds(response.headers["request-duration"]) +
+        " - " +
+        response.request.responseURL
+    );
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -47,6 +60,7 @@ axiosInstance.interceptors.response.use(
 
         // Retry the original request with the new token
         originalRequest.headers.Authorization = `Bearer ${token}`;
+
         return axios(originalRequest);
       } catch (error) {
         // Handle refresh token error or redirect to login
@@ -59,5 +73,14 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+function millisToMinutesAndSeconds(millis: string) {
+  var minutes = Math.floor(parseInt(millis) / 60000);
+  var seconds = parseInt(((parseInt(millis) % 60000) / 1000).toFixed(0));
+
+  return seconds == 60
+    ? minutes + 1 + ":00"
+    : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
 
 export default axiosInstance;

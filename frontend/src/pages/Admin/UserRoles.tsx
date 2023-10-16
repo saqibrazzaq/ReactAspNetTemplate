@@ -1,4 +1,10 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Container,
@@ -23,6 +29,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
@@ -48,24 +55,34 @@ import RoleDropdown from "../../components/Dropdowns/RoleDropdown";
 import RoleRes from "../../models/User/RoleRes";
 import SubmitButton from "../../components/Buttons/SubmitButton";
 import DeleteIconButton from "../../components/Icons/DeleteIconButon";
+import CancelButton from "../../components/Buttons/CancelButton";
+import DeleteButton from "../../components/Buttons/DeleteButton";
+import RemoveRoleReq from "../../models/User/RemoveRoleReq";
 
 const UserRoles = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserResponseDto>();
   const params = useParams();
   const { username } = params;
+  const [selectedRole, setSelectedRole] = useState<string>("");
   const [roleData, setRoleData] = useState<AddRoleRequestDto>(
     new AddRoleRequestDto(username, "")
   );
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    loadUserRoles();
+  }, []);
+
+  const loadUserRoles = () => {
     UserApi.getUserByName(username ?? "")
       .then((res) => setUserData(res))
       .catch((err) => {
         let errDetails: ErrorDetails = err?.response?.data;
         toastNotify(errDetails?.Message ?? "Error", "error");
       });
-  }, []);
+  };
 
   const displayHeading = () => (
     <Flex>
@@ -96,7 +113,13 @@ const UserRoles = () => {
               <Tr key={index}>
                 <Td>{item}</Td>
                 <Td>
-                  <Link as={RouteLink} ms={2} to={item + "/delete"}>
+                  <Link
+                    ms={2}
+                    onClick={() => {
+                      onOpen();
+                      setSelectedRole(item);
+                    }}
+                  >
                     <DeleteIconButton />
                   </Link>
                 </Td>
@@ -170,12 +193,56 @@ const UserRoles = () => {
     </Box>
   );
 
+  const removeRole = () => {
+    onClose();
+    UserApi.removeRoleFromUser(new RemoveRoleReq(username, selectedRole))
+      .then((res) => {
+        toastNotify(selectedRole + " removed successfully.");
+        loadUserRoles();
+      })
+      .catch((err) => {
+        // console.log(err);
+        let errDetails: ErrorDetails = err?.response?.data;
+        toastNotify(errDetails?.Message ?? "Service failed", "error");
+      });
+  };
+
+  const showAlertDialog = () => (
+    <AlertDialog
+      isOpen={isOpen}
+      leastDestructiveRef={cancelRef}
+      onClose={onClose}
+    >
+      <AlertDialogOverlay>
+        <AlertDialogContent>
+          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            Remove {selectedRole} Role from User
+          </AlertDialogHeader>
+
+          <AlertDialogBody>
+            Are you sure? You can't undo this action afterwards.
+          </AlertDialogBody>
+
+          <AlertDialogFooter>
+            <Link ref={cancelRef} onClick={onClose}>
+              <CancelButton />
+            </Link>
+            <Link onClick={removeRole} ml={3}>
+              <DeleteButton text="Remove Role from User" />
+            </Link>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialogOverlay>
+    </AlertDialog>
+  );
+
   return (
     <Box p={4}>
       <Stack spacing={4} as={Container} maxW={"3xl"}>
         {displayHeading()}
         {showUpdateForm()}
         {displayRoles()}
+        {showAlertDialog()}
       </Stack>
     </Box>
   );

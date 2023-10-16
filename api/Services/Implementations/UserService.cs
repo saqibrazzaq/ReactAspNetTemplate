@@ -50,7 +50,7 @@ namespace api.Services.Implementations
             _environment = environment;
             _cloudinaryService = cloudinaryService;
         }
-        public async Task ChangePassword(ChangePasswordRequestDto dto)
+        public async Task ChangePassword(ChangePasswordReq dto)
         {
             // Verify email address
             var userEntity = await _userManager.FindByEmailAsync(dto.Email);
@@ -77,18 +77,19 @@ namespace api.Services.Implementations
                 return methodName + " method failed";
         }
 
-        public async Task Delete(DeleteUserRequestDto dto)
+        public async Task Delete(DeleteUserReq dto)
         {
             var userEntity = await _userManager.FindByNameAsync(dto.Username);
-            if (userEntity == null)
-                throw new NotFoundException("User does not exist");
-
+            var currentUserEntity = await _userManager.FindByNameAsync(UserName);
+            ValidateUserSameAccount(currentUserEntity, userEntity);
+            
             var roles = await _userManager.GetRolesAsync(userEntity);
             if (roles.Contains(Constants.OwnerRole))
                 throw new BadRequestException("Owner user cannot be deleted");
             if (roles.Contains(Constants.SuperAdminRole))
                 throw new BadRequestException("Super Admin user cannot be deleted");
 
+            
             var resultUser = await _userManager.DeleteAsync(userEntity);
             if (resultUser.Succeeded == false)
             {
@@ -122,20 +123,20 @@ namespace api.Services.Implementations
             }
         }
 
-        public async Task<UserResponseDto> FindByUsername(string username)
+        public async Task<UserRes> FindByUsername(string username)
         {
             // Find the user
             var userEntity = await _userManager.FindByNameAsync(username);
             // Find current user
             var currentUserEntity = await _userManager.FindByNameAsync(UserName);
-            ValidateUserAccount(currentUserEntity, userEntity);
+            ValidateUserSameAccount(currentUserEntity, userEntity);
 
-            var userDto = _mapper.Map<UserResponseDto>(userEntity);
+            var userDto = _mapper.Map<UserRes>(userEntity);
             userDto.Roles = await _userManager.GetRolesAsync(userEntity);
             return userDto;
         }
 
-        public async Task<AuthenticationResponseDto> Login(LoginRequestDto dto)
+        public async Task<AuthenticationResponseDto> Login(LoginReq dto)
         {
             // Authenticate user
             var userEntity = await AuthenticateUser(dto.Email, dto.Password);
@@ -232,7 +233,7 @@ namespace api.Services.Implementations
             return isAuthenticated ? userEntity : null;
         }
 
-        public async Task<TokenDto> RefreshToken(TokenDto dto)
+        public async Task<TokenRes> RefreshToken(TokenRes dto)
         {
             var principal = GetPrincipalFromExpiredToken(dto.AccessToken);
             if (principal == null || principal.Identity == null)
@@ -260,7 +261,7 @@ namespace api.Services.Implementations
             //if (userResult.Succeeded == false)
             //    throw new BadRequestException("Invalid token");
 
-            return new TokenDto
+            return new TokenRes
             {
                 //AccessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
                 AccessToken = newAccessToken,
@@ -293,7 +294,7 @@ namespace api.Services.Implementations
 
         }
 
-        public async Task<AuthenticationResponseDto> RegisterOwner(CreateUserRequestDto dto)
+        public async Task<AuthenticationResponseDto> RegisterOwner(CreateUserReq dto)
         {
             await CheckExistingEmailAndUsername(dto.Email, dto.Username);
 
@@ -324,7 +325,7 @@ namespace api.Services.Implementations
 
             await SendVerificationEmailToUser(userEntity);
 
-            return await Login(new LoginRequestDto { Email = dto.Email, Password = dto.Password });
+            return await Login(new LoginReq { Email = dto.Email, Password = dto.Password });
         }
 
         private async Task SendVerificationEmailToUser(AppIdentityUser userEntity)
@@ -386,7 +387,7 @@ namespace api.Services.Implementations
             return userEntity != null ? true : false;
         }
 
-        public async Task CreateUser(CreateUserRequestDto dto)
+        public async Task CreateUser(CreateUserReq dto)
         {
             await CheckExistingEmailAndUsername(dto.Email, dto.Username);
             var currentUserEntity = await _userManager.FindByNameAsync(UserName);
@@ -414,7 +415,7 @@ namespace api.Services.Implementations
             await SendVerificationEmailToUser(userEntity);
         }
 
-        public async Task ResetPassword(ResetPasswordRequestDto dto)
+        public async Task ResetPassword(ResetPasswordReq dto)
         {
             // Verify email address
             var userEntity = await _userManager.FindByEmailAsync(dto.Email);
@@ -430,25 +431,25 @@ namespace api.Services.Implementations
                     result, nameof(ResetPassword)));
         }
 
-        public async Task<ApiOkPagedResponse<IList<UserResponseDto>, MetaData>> SearchUsers(
-            SearchUsersRequestDto dto, bool trackChanges)
+        public async Task<ApiOkPagedResponse<IList<UserRes>, MetaData>> SearchUsers(
+            SearchUsersReq dto, bool trackChanges)
         {
             var userEntity = await _userManager.FindByNameAsync(UserName ?? "");
             dto.AccountId = userEntity?.AccountId ?? 0;
 
             var usersWithMetadata = _repository.UserRepository.SearchUsers(
                 dto, trackChanges);
-            var usersDto = _mapper.Map<IList<UserResponseDto>>(usersWithMetadata);
+            var usersDto = _mapper.Map<IList<UserRes>>(usersWithMetadata);
             for (int i = 0; i < usersDto.Count; i++)
             {
                 AppIdentityUser user = await _userManager.FindByNameAsync(usersDto[i].UserName);
                 usersDto[i].Roles = await _userManager.GetRolesAsync(user);
             }
-            return new ApiOkPagedResponse<IList<UserResponseDto>, MetaData>(
+            return new ApiOkPagedResponse<IList<UserRes>, MetaData>(
                 usersDto, usersWithMetadata.MetaData);
         }
 
-        public async Task SendForgotPasswordEmail(SendForgotPasswordEmailRequestDto dto)
+        public async Task SendForgotPasswordEmail(SendForgotPasswordEmailReq dto)
         {
             // Verify email address
             var userEntity = await _userManager.FindByEmailAsync(dto.Email);
@@ -507,7 +508,7 @@ namespace api.Services.Implementations
             }
         }
 
-        public async Task VerifyEmail(VerifyEmailRequestDto dto)
+        public async Task VerifyEmail(VerifyEmailReq dto)
         {
             // Verify email address
             var userEntity = await _userManager.FindByNameAsync(UserName);
@@ -535,20 +536,20 @@ namespace api.Services.Implementations
             await _userManager.UpdateAsync(userEntity);
         }
 
-        public async Task AddRoleToUser(AddRoleRequestDto dto)
+        public async Task AddRoleToUser(AddRoleReq dto)
         {
             if (canAddRole(dto.RoleName) == false)
                 throw new Exception("Cannot add Role " + dto.RoleName + " to user.");
             var currentUserEntity = await _userManager.FindByNameAsync(UserName);
             var userEntity = await _userManager.FindByNameAsync(dto.UserName);
-            ValidateUserAccount(currentUserEntity, userEntity);
+            ValidateUserSameAccount(currentUserEntity, userEntity);
 
             var result = await _userManager.AddToRoleAsync(userEntity, dto.RoleName);
             if (result.Succeeded == false)
                 throw new Exception(result.Errors.FirstOrDefault().Description);
         }
 
-        private void ValidateUserAccount(AppIdentityUser? currentUserEntity, AppIdentityUser? userEntity)
+        private void ValidateUserSameAccount(AppIdentityUser? currentUserEntity, AppIdentityUser? userEntity)
         {
             if (userEntity == null)
                 throw new Exception("User not found");
@@ -561,11 +562,21 @@ namespace api.Services.Implementations
         private bool canAddRole(string? roleName)
         {
             var roles = Constants.AssignableRoles.Split(',');
-            var found = roles.Where(x => x ==  roleName).FirstOrDefault();
-            if (found == null)
-                return false;
-            else
+            var role = roles.Where(x => x ==  roleName).FirstOrDefault();
+            if (role != null)
                 return true;
+            else
+                return false;
+        }
+
+        private bool canRemoveRole(string? roleName)
+        {
+            var roles = Constants.AssignableRoles.Split(',');
+            var role = roles.Where(x => x == roleName).FirstOrDefault();
+            if (role != null)
+                return true;
+            else
+                return false;
         }
 
         public IList<RoleRes> GetAllRoles()
@@ -573,6 +584,19 @@ namespace api.Services.Implementations
             var roles = Constants.AssignableRoles.Split(',');
             var list = roles.Select(x => new RoleRes { RoleName = x }).ToList();
             return list;
+        }
+
+        public async Task RemoveRoleFromUser(RemoveRoleReq dto)
+        {
+            if (canRemoveRole(dto.RoleName) == false)
+                throw new Exception("Cannot remove Role " + dto.RoleName + " from user.");
+            var currentUserEntity = await _userManager.FindByNameAsync(UserName);
+            var userEntity = await _userManager.FindByNameAsync(dto.UserName);
+            ValidateUserSameAccount(currentUserEntity, userEntity);
+            
+            var result = await _userManager.RemoveFromRoleAsync(userEntity, dto.RoleName);
+            if (result.Succeeded == false)
+                throw new Exception(result.Errors.FirstOrDefault().Description);
         }
     }
 }

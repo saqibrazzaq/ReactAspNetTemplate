@@ -9,7 +9,7 @@ namespace api.Repository.Implementations
     public static class UserRepositoryExtension
     {
         public static IQueryable<AppIdentityUser> Search(this IQueryable<AppIdentityUser> items,
-            SearchUsersRequestDto searchParams)
+            SearchUsersReq searchParams)
         {
             var itemsToReturn = items;
 

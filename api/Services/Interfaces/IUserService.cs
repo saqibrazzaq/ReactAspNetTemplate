@@ -5,22 +5,23 @@ namespace api.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<AuthenticationResponseDto> Login(LoginRequestDto dto);
-        Task<AuthenticationResponseDto> RegisterOwner(CreateUserRequestDto dto);
-        Task CreateUser(CreateUserRequestDto dto);
-        Task Delete(DeleteUserRequestDto dto);
-        Task<TokenDto> RefreshToken(TokenDto dto);
+        Task<AuthenticationResponseDto> Login(LoginReq dto);
+        Task<AuthenticationResponseDto> RegisterOwner(CreateUserReq dto);
+        Task CreateUser(CreateUserReq dto);
+        Task Delete(DeleteUserReq dto);
+        Task<TokenRes> RefreshToken(TokenRes dto);
         Task SendVerificationEmail();
-        Task VerifyEmail(VerifyEmailRequestDto dto);
-        Task SendForgotPasswordEmail(SendForgotPasswordEmailRequestDto dto);
-        Task ResetPassword(ResetPasswordRequestDto dto);
-        Task ChangePassword(ChangePasswordRequestDto dto);
-        Task<ApiOkPagedResponse<IList<UserResponseDto>, MetaData>>
-            SearchUsers(SearchUsersRequestDto dto, bool trackChanges);
+        Task VerifyEmail(VerifyEmailReq dto);
+        Task SendForgotPasswordEmail(SendForgotPasswordEmailReq dto);
+        Task ResetPassword(ResetPasswordReq dto);
+        Task ChangePassword(ChangePasswordReq dto);
+        Task<ApiOkPagedResponse<IList<UserRes>, MetaData>>
+            SearchUsers(SearchUsersReq dto, bool trackChanges);
         Task<AuthenticationResponseDto> GetLoggedInUser();
-        Task<UserResponseDto> FindByUsername(string username);
+        Task<UserRes> FindByUsername(string username);
         Task UpdateProfilePicture(IFormFile formFile);
-        Task AddRoleToUser(AddRoleRequestDto dto);
+        Task AddRoleToUser(AddRoleReq dto);
+        Task RemoveRoleFromUser(RemoveRoleReq dto);
         IList<RoleRes> GetAllRoles();
     }
 }

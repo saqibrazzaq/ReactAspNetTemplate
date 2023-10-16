@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace api.Dtos.User
 {
-    public class TokenDto
+    public class TokenRes
     {
         [Required(ErrorMessage = "Access token is required")]
         public string? AccessToken { get; set; }

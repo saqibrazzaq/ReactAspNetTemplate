@@ -2,6 +2,7 @@ import AddRoleRequestDto from "../models/User/AddRoleRequestDto";
 import ChangePasswordRequestDto from "../models/User/ChangePasswordRequestDto";
 import CreateUserRequestDto from "../models/User/CreateUserRequestDto";
 import RefreshTokenDto from "../models/User/RefreshTokenDto";
+import RemoveRoleReq from "../models/User/RemoveRoleReq";
 import SearchUsersRequestParameters from "../models/User/SearchUsersRequestParameters";
 import UserLoginDto from "../models/User/UserLoginDto";
 import VerifyEmailDto from "../models/User/VerifyEmailDto";
@@ -73,6 +74,15 @@ export const UserApi = {
     const response = await axiosInstance.request({
       url: "/Users/add-role",
       method: "POST",
+      data: data,
+    });
+
+    return response.data;
+  },
+  removeRoleFromUser: async function (data: RemoveRoleReq) {
+    const response = await axiosInstance.request({
+      url: "/Users/remove-role",
+      method: "DELETE",
       data: data,
     });
 

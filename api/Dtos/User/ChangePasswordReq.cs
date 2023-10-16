@@ -2,21 +2,24 @@
 
 namespace api.Dtos.User
 {
-    public class RegisterRequestDto
+    public class ChangePasswordReq
     {
-        [Required(ErrorMessage = "Username is required")]
-        [MaxLength(50, ErrorMessage = "Maximum 50 characters for Username")]
-        public string? Username { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [MaxLength(255, ErrorMessage = "Maximum 255 characters for Email")]
         [EmailAddress]
         public string? Email { get; set; }
-        [Required(ErrorMessage = "Password is required")]
+
+        [Required(ErrorMessage = "Current Password is required")]
         [MinLength(6, ErrorMessage = "Minimum 6 characters for password")]
-        public string? Password { get; set; }
+        public string? CurrentPassword { get; set; }
+
+        [Required(ErrorMessage = "New Password is required")]
+        [MinLength(6, ErrorMessage = "Minimum 6 characters for New password")]
+        public string? NewPassword { get; set; }
+
         [Required(ErrorMessage = "Confirm Password is required")]
         [MinLength(6, ErrorMessage = "Minimum 6 characters for confirm password")]
-        [Compare("Password", ErrorMessage = "Confirm password must match with password")]
-        public string? ConfirmPassword { get; set; }
+        [Compare("NewPassword", ErrorMessage = "Confirm password must match with New password")]
+        public string? ConfirmNewPassword { get; set; }
     }
 }

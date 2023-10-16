@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class AddRoleRequestDto
+    public class AddRoleReq
     {
         [Required]
         public string? UserName { get; set; }
