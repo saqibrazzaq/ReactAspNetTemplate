@@ -1,6 +1,6 @@
 ﻿namespace api.Utility.Paging
 {
-    public class PagedRequestDto
+    public class PagedReq
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;

@@ -8,13 +8,14 @@ import { AiOutlineUnlock } from "react-icons/ai";
 import { SuperAdminHome } from "../../pages/SuperAdmin";
 import { NotFound } from "../../pages/ZOther";
 import { withSuperAdminAuth } from "../../hoc";
+import { Countries } from "../../pages/SuperAdmin/Country";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/superadmin" },
   {
-    name: "SuperAdmin 1",
+    name: "Countries",
     icon: AiOutlineUnlock,
-    href: "/superadmin/1",
+    href: "/superadmin/countries",
   },
   {
     name: "SuperAdmin 2",
@@ -34,6 +35,7 @@ const SuperAdminLayout = () => {
       <Box flex="1">
         <Routes>
           <Route path="/" element={<SuperAdminHome />} />
+          <Route path="countries" element={<Countries />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

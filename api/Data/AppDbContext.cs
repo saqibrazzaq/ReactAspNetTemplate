@@ -16,5 +16,7 @@ namespace api.Data
         public new DbSet<AppIdentityUser>? Users { get; set; }
         public DbSet<Account>? Accounts { get; set; }
         public DbSet<AccountType>? AccountTypes { get; set; }
+        public DbSet<Country>? Countries { get; set; }
+        public DbSet<State>? States { get; set; }
     }
 }

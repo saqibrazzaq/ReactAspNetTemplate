@@ -1,7 +1,7 @@
 import { Common } from "../../utility";
-import PagedReq from "../Request/PagedReq";
+import { PagedReq } from "../Request";
 
-export default class SearchUsersReq extends PagedReq {
+export default class CountrySearchReq extends PagedReq {
   constructor(
     {
       pageNumber = 1,

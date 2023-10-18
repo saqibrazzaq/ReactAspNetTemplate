@@ -27,25 +27,27 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { UserApi } from "../../api/UserApi";
-import { PagedResponse } from "../../models/Request";
-import { SearchUsersReq, UserRes } from "../../models/User";
-import { Common } from "../../utility";
-import ErrorDetails from "../../models/Error/ErrorDetails";
-import { toastNotify } from "../../Helper";
-import { GrayButton, RegularButton } from "../../components/Buttons";
-import { DeleteIconButton, RoleIconButton } from "../../components/Icons";
+import { PagedResponse } from "../../../models/Request";
+import { Common } from "../../../utility";
+import { CountryRes } from "../../../models/Country";
+import { CountryApi } from "../../../api/CountryApi";
+import ErrorDetails from "../../../models/Error/ErrorDetails";
+import { toastNotify } from "../../../Helper";
+import { GrayButton, RegularButton } from "../../../components/Buttons";
+import StateIconButton from "../../../components/Icons/StateIconButton";
+import { DeleteIconButton } from "../../../components/Icons";
 
-const Users = () => {
+const Countries = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams(location.search);
   searchParams.set("pageSize", Common.DEFAULT_PAGE_SIZE.toString());
-  const [pagedRes, setPagedRes] = useState<PagedResponse<UserRes>>();
+
+  const [pagedRes, setPagedRes] = useState<PagedResponse<CountryRes>>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    searchUsers();
-  }, [searchParams]);
+    searchCountries();
+  }, []);
 
   const updateSearchParams = (key: string, value: string) => {
     searchParams.set(key, value);
@@ -66,8 +68,8 @@ const Users = () => {
     }
   };
 
-  const searchUsers = () => {
-    UserApi.search(Object.fromEntries(searchParams))
+  const searchCountries = () => {
+    CountryApi.search(Object.fromEntries(searchParams))
       .then((res) => {
         //let userRes: PagedResponse<UserDto> = res;
         // console.log(res);
@@ -82,12 +84,12 @@ const Users = () => {
   const displayHeading = () => (
     <Flex>
       <Box>
-        <Heading fontSize={"xl"}>Search Users</Heading>
+        <Heading fontSize={"xl"}>Search Countries</Heading>
       </Box>
       <Spacer />
       <Box>
         <Link as={RouteLink} to={"update"}>
-          <RegularButton text="Create User" />
+          <RegularButton text="Create Country" />
         </Link>
         <Link ml={2} onClick={() => navigate(-1)}>
           <GrayButton />
@@ -96,37 +98,27 @@ const Users = () => {
     </Flex>
   );
 
-  const displayUsers = () => (
+  const displayCountries = () => (
     <TableContainer>
       <Table variant="simple" size={"sm"}>
         <Thead>
           <Tr>
-            <Th></Th>
-            <Th>Username</Th>
-            <Th>Email</Th>
-            <Th>Roles</Th>
+            <Th>Code</Th>
+            <Th>Name</Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
           {pagedRes?.pagedList ? (
             pagedRes.pagedList.map((item) => (
-              <Tr key={item.email}>
+              <Tr key={item.countryId}>
+                <Td>{item.countryCode}</Td>
+                <Td>{item.countryName}</Td>
                 <Td>
-                  <Img src={item.profilePictureUrl} height={8} />
-                </Td>
-                <Td>{item.userName}</Td>
-                <Td>{item.email}</Td>
-                <Td>
-                  {item.roles?.map((role, index) => (
-                    <Text key={index}>{role + ", "}</Text>
-                  ))}
-                </Td>
-                <Td>
-                  <Link as={RouteLink} to={item.userName + "/roles"}>
-                    <RoleIconButton />
+                  <Link as={RouteLink} to={item.countryId + "/states"}>
+                    <StateIconButton />
                   </Link>
-                  <Link as={RouteLink} ms={2} to={item.userName + "/delete"}>
+                  <Link as={RouteLink} ms={2} to={item.countryId + "/delete"}>
                     <DeleteIconButton />
                   </Link>
                 </Td>
@@ -168,10 +160,10 @@ const Users = () => {
     <Box p={4}>
       <Stack spacing={4} as={Container} maxW={"3xl"}>
         {displayHeading()}
-        {displayUsers()}
+        {displayCountries()}
       </Stack>
     </Box>
   );
 };
 
-export default Users;
+export default Countries;

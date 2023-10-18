@@ -1,7 +1,8 @@
 import { Common } from "../../utility";
-import PagedReq from "../Request/PagedReq";
+import { PagedReq } from "../Request";
 
-export default class SearchUsersReq extends PagedReq {
+export default class StateSearchReq extends PagedReq {
+  countryId?: string;
   constructor(
     {
       pageNumber = 1,
@@ -9,7 +10,7 @@ export default class SearchUsersReq extends PagedReq {
       orderBy = "",
       searchText = "",
     }: PagedReq,
-    {}
+    { countryId = "" }
   ) {
     super({
       pageNumber: pageNumber,
@@ -17,5 +18,6 @@ export default class SearchUsersReq extends PagedReq {
       orderBy: orderBy,
       searchText: searchText,
     });
+    this.countryId = countryId;
   }
 }

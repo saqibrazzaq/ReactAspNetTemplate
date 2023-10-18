@@ -2,7 +2,7 @@
 
 namespace api.Dtos.User
 {
-    public class SearchUsersReq : PagedRequestDto
+    public class SearchUsersReq : PagedReq
     {
         public int AccountId { get; set; } = 0;
     }

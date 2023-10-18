@@ -63,6 +63,7 @@ namespace api.Extensions
             services.AddScoped<IAccountDataSeedService, AccountDataSeedService>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICountryService, CountryService>();
         }
 
         public static void MigrateDatabase(this IServiceCollection services)

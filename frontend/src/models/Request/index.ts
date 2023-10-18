@@ -1,5 +1,5 @@
 import PagedResponse from "./PagedResponse";
-import PagedRequestParameters from "./RequestParameters";
+import PagedReq from "./PagedReq";
 
-export { PagedRequestParameters };
+export { PagedReq };
 export type { PagedResponse };
