@@ -13489,3 +13489,6 @@
 2023-10-18 11:28:36.9241 Debug FileTarget(Name=logfile): Preparing for new file: 'C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-18_logfile.txt'
 2023-10-18 11:28:36.9241 Debug FileTarget(Name=logfile): Creating file appender: 'C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-18_logfile.txt'
 2023-10-18 11:28:36.9241 Trace FileTarget(Name=logfile): Opening C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-18_logfile.txt with allowFileSharedWriting=False
+2023-10-19 11:30:05.2087 Debug FileTarget(Name=logfile): Preparing for new file: 'C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-19_logfile.txt'
+2023-10-19 11:30:05.2087 Debug FileTarget(Name=logfile): Creating file appender: 'C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-19_logfile.txt'
+2023-10-19 11:30:05.2087 Trace FileTarget(Name=logfile): Opening C:\Data\Projects\Github\ReactAspNetTemplate\api\bin\Debug\net8.0\.\logs\2023-10-19_logfile.txt with allowFileSharedWriting=False

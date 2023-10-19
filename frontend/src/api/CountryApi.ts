@@ -2,7 +2,8 @@ import { CountryEditReq, CountrySearchReq } from "../models/Country";
 import { axiosInstance } from "../provider";
 
 export const CountryApi = {
-  create: async function (data: CountryEditReq) {
+  create: async function (data?: CountryEditReq) {
+    if (!data) return;
     const response = await axiosInstance.request({
       url: "/Countries",
       method: "POST",
@@ -11,7 +12,8 @@ export const CountryApi = {
 
     return response.data;
   },
-  update: async function (countryId: string, data: CountryEditReq) {
+  update: async function (countryId?: string, data?: CountryEditReq) {
+    if (!countryId || !data) return;
     const response = await axiosInstance.request({
       url: "/Countries/" + countryId,
       method: "PUT",
@@ -20,7 +22,8 @@ export const CountryApi = {
 
     return response.data;
   },
-  delete: async function (countryId: string) {
+  delete: async function (countryId?: string) {
+    if (!countryId) return;
     const response = await axiosInstance.request({
       url: `/Countries/` + countryId,
       method: "DELETE",
@@ -28,7 +31,9 @@ export const CountryApi = {
 
     return response.data;
   },
-  get: async function (countryId: string) {
+  get: async function (countryId?: string) {
+    // console.log(countryId);
+    if (!countryId) return;
     const response = await axiosInstance.request({
       url: `/Countries/` + countryId,
       method: "GET",
@@ -36,15 +41,17 @@ export const CountryApi = {
 
     return response.data;
   },
-  getWithStateCount: async function (countryId: string) {
+  getWithStateCount: async function (countryId?: string) {
+    if (!countryId) return;
     const response = await axiosInstance.request({
-      url: `/Countries/get-with-state-count/` + countryId,
+      url: "/Countries/" + countryId + "/get-with-state-count/",
       method: "GET",
     });
 
     return response.data;
   },
-  search: async function (searchParams: CountrySearchReq) {
+  search: async function (searchParams?: CountrySearchReq) {
+    if (!searchParams) return;
     const response = await axiosInstance.request({
       url: "/countries/search",
       method: "GET",
@@ -54,6 +61,7 @@ export const CountryApi = {
     return response.data;
   },
   searchWithStateCount: async function (searchParams: CountrySearchReq) {
+    if (!searchParams) return;
     const response = await axiosInstance.request({
       url: "/countries/search-with-state-count",
       method: "GET",

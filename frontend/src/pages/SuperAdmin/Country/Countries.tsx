@@ -36,6 +36,7 @@ import { toastNotify } from "../../../Helper";
 import { GrayButton, RegularButton } from "../../../components/Buttons";
 import StateIconButton from "../../../components/Icons/StateIconButton";
 import { DeleteIconButton } from "../../../components/Icons";
+import EditIconButton from "../../../components/Icons/EditIconButton";
 
 const Countries = () => {
   const location = useLocation();
@@ -88,7 +89,7 @@ const Countries = () => {
       </Box>
       <Spacer />
       <Box>
-        <Link as={RouteLink} to={"update"}>
+        <Link as={RouteLink} to={"edit"}>
           <RegularButton text="Create Country" />
         </Link>
         <Link ml={2} onClick={() => navigate(-1)}>
@@ -117,6 +118,9 @@ const Countries = () => {
                 <Td>
                   <Link as={RouteLink} to={item.countryId + "/states"}>
                     <StateIconButton />
+                  </Link>
+                  <Link as={RouteLink} ms={2} to={item.countryId + "/edit"}>
+                    <EditIconButton />
                   </Link>
                   <Link as={RouteLink} ms={2} to={item.countryId + "/delete"}>
                     <DeleteIconButton />

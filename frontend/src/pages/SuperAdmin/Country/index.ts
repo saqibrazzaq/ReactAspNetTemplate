@@ -1,3 +1,4 @@
 import Countries from "./Countries";
+import CountryEdit from "./CountryEdit";
 
-export { Countries };
+export { Countries, CountryEdit };
