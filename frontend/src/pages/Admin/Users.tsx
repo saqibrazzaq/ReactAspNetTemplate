@@ -1,11 +1,13 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   Flex,
   Heading,
   IconButton,
   Img,
+  Input,
   Link,
   Spacer,
   Stack,
@@ -41,6 +43,9 @@ const Users = () => {
   const [searchParams, setSearchParams] = useSearchParams(location.search);
   searchParams.set("pageSize", Common.DEFAULT_PAGE_SIZE.toString());
   const [pagedRes, setPagedRes] = useState<PagedResponse<UserRes>>();
+  const [searchText, setSearchText] = useState<string>(
+    searchParams.get("searchText") ?? ""
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -164,10 +169,45 @@ const Users = () => {
     </TableContainer>
   );
 
+  const displaySearchBar = () => (
+    <Flex>
+      <Center></Center>
+      <Box flex={1} ml={4}></Box>
+
+      <Box ml={4}>
+        <Input
+          size={"sm"}
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              updateSearchParams("searchText", searchText);
+              updateSearchParams("pageNumber", "1");
+            }
+          }}
+        />
+      </Box>
+      <Box ml={0}>
+        <Button
+          colorScheme={"blue"}
+          size={"sm"}
+          onClick={() => {
+            updateSearchParams("searchText", searchText);
+            updateSearchParams("pageNumber", "1");
+          }}
+        >
+          Search
+        </Button>
+      </Box>
+    </Flex>
+  );
+
   return (
     <Box p={4}>
       <Stack spacing={4} as={Container} maxW={"3xl"}>
         {displayHeading()}
+        {displaySearchBar()}
         {displayUsers()}
       </Stack>
     </Box>

@@ -1,14 +1,22 @@
-import { Button } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/react";
+import ButtonProps from "./ButtonProps";
 
-interface GrayButtonProps {
-  text?: string;
-}
-
-const GrayButton: React.FC<GrayButtonProps> = (props) => {
-  const _text = props.text ?? "Back";
+const GrayButton = ({
+  text = "Cancel",
+  size = "sm",
+  disabled = false,
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button colorScheme="gray" >{_text}</Button>
-  )
-}
+    <Button
+      size={size}
+      disabled={disabled}
+      colorScheme="gray"
+      onClick={onClick}
+    >
+      {text}
+    </Button>
+  );
+};
 
-export default GrayButton
+export default GrayButton;

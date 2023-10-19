@@ -1,17 +1,20 @@
 import { Button } from "@chakra-ui/react";
-import React from "react";
+import ButtonProps from "./ButtonProps";
 
-interface SubmitButtonProps {
-  text?: string;
-}
-
-const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
-  let text = "Submit";
-
-  if (props.text) text = props.text;
-
+const SubmitButton = ({
+  text = "Cancel",
+  size = "sm",
+  disabled = false,
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button type="submit" colorScheme="blue">
+    <Button
+      type="submit"
+      size={size}
+      disabled={disabled}
+      colorScheme="blue"
+      onClick={onClick}
+    >
       {text}
     </Button>
   );

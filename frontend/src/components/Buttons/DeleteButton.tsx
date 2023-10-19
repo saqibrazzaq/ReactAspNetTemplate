@@ -1,25 +1,18 @@
-import { Button } from '@chakra-ui/react';
-import React from 'react'
+import { Button } from "@chakra-ui/react";
+import React from "react";
+import ButtonProps from "./ButtonProps";
 
-interface DeleteButtonProps {
-  text?: string;
-  disabled?: boolean;
-  onClick?: () => void;
-}
-
-const DeleteButton: React.FC<DeleteButtonProps> = (props) => {
-  let text = "Submit";
-  let disabled = false;
-
-  if (props.text) text = props.text;
-  if (props.disabled) disabled = props.disabled;
-
-
+const DeleteButton = ({
+  text = "DELETE",
+  size = "sm",
+  disabled = false,
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button disabled={disabled} colorScheme="red" onClick={props.onClick}>
+    <Button size={size} disabled={disabled} colorScheme="red" onClick={onClick}>
       {text}
     </Button>
-  )
-}
+  );
+};
 
-export default DeleteButton
+export default DeleteButton;

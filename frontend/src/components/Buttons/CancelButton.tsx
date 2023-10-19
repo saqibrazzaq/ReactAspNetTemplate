@@ -1,9 +1,22 @@
-import { Button } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/react";
+import ButtonProps from "./ButtonProps";
 
-const CancelButton = () => {
+const CancelButton = ({
+  text = "Cancel",
+  size = "sm",
+  disabled = false,
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button colorScheme="gray" >Cancel</Button>
-  )
-}
+    <Button
+      size={size}
+      disabled={disabled}
+      colorScheme="gray"
+      onClick={onClick}
+    >
+      {text}
+    </Button>
+  );
+};
 
-export default CancelButton
+export default CancelButton;
