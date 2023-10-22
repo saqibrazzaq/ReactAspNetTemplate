@@ -8,8 +8,14 @@ import { AiOutlineUnlock } from "react-icons/ai";
 import { SuperAdminHome } from "../../pages/SuperAdmin";
 import { NotFound } from "../../pages/ZOther";
 import { withSuperAdminAuth } from "../../hoc";
-import { Countries, CountryEdit } from "../../pages/SuperAdmin/Country";
-import CountryDelete from "../../pages/SuperAdmin/Country/CountryDelete";
+import {
+  Countries,
+  CountryDelete,
+  CountryEdit,
+  StateDelete,
+  States,
+} from "../../pages/SuperAdmin/Country";
+import StateEdit from "../../pages/SuperAdmin/Country/StateEdit";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/superadmin" },
@@ -42,6 +48,19 @@ const SuperAdminLayout = () => {
           <Route
             path="countries/:countryId/delete"
             element={<CountryDelete />}
+          />
+          <Route path="countries/:countryId/states" element={<States />} />
+          <Route
+            path="countries/:countryId/states/edit"
+            element={<StateEdit />}
+          />
+          <Route
+            path="countries/:countryId/states/:stateId/edit"
+            element={<StateEdit />}
+          />
+          <Route
+            path="countries/:countryId/states/:stateId/delete"
+            element={<StateDelete />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

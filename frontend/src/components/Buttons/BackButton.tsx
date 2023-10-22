@@ -1,8 +1,8 @@
 import { Button } from "@chakra-ui/react";
 import ButtonProps from "./ButtonProps";
 
-const GrayButton = ({
-  text = "Cancel",
+const BackButton = ({
+  text = "Back",
   size = "sm",
   disabled = false,
   onClick,
@@ -19,4 +19,4 @@ const GrayButton = ({
   );
 };
 
-export default GrayButton;
+export default BackButton;

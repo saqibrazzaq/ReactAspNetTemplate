@@ -64,6 +64,7 @@ namespace api.Extensions
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<IStateService, StateService>();
         }
 
         public static void MigrateDatabase(this IServiceCollection services)

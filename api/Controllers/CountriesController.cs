@@ -12,7 +12,6 @@ namespace api.Controllers
     public class CountriesController : ControllerBase
     {
         private readonly ICountryService _countryService;
-
         public CountriesController(ICountryService countryService)
         {
             _countryService = countryService;
@@ -73,5 +72,7 @@ namespace api.Controllers
             var res = _countryService.SearchWithStateCount(dto);
             return Ok(res);
         }
+
+        
     }
 }

@@ -42,7 +42,7 @@ import { toastNotify } from "../../Helper";
 import {
   CancelButton,
   DeleteButton,
-  GrayButton,
+  BackButton,
   SubmitButton,
 } from "../../components/Buttons";
 import { DeleteIconButton } from "../../components/Icons";
@@ -81,7 +81,7 @@ const UserRoles = () => {
       <Spacer />
       <Box>
         <Link ml={2} onClick={() => navigate(-1)}>
-          <GrayButton />
+          <BackButton />
         </Link>
       </Box>
     </Flex>

@@ -26,15 +26,15 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useParams, Link as RouteLink, useNavigate } from "react-router-dom";
-import { CountryWithStateCountRes } from "../../../models/Country";
-import { CountryApi } from "../../../api";
-import ErrorDetails from "../../../models/Error/ErrorDetails";
 import { toastNotify } from "../../../Helper";
+import { StateRes } from "../../../models/Country";
+import { StateApi } from "../../../api";
+import { ErrorDetails } from "../../../models/Error";
 
-const CountryDelete = () => {
+const StateDelete = () => {
   let params = useParams();
-  const { countryId } = params;
-  const [country, setCountry] = useState<CountryWithStateCountRes>();
+  const { countryId, stateId } = params;
+  const [state, setState] = useState<StateRes>();
   const navigate = useNavigate();
   const toast = useToast();
   const [error, setError] = useState("");
@@ -43,14 +43,14 @@ const CountryDelete = () => {
   const cancelRef = React.useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    loadCountry();
-  }, [countryId]);
+    loadState();
+  }, [stateId]);
 
-  const loadCountry = () => {
-    if (!countryId) return;
-    CountryApi.getWithStateCount(countryId)
+  const loadState = () => {
+    if (!stateId) return;
+    StateApi.get(stateId)
       .then((res) => {
-        setCountry(res);
+        setState(res);
         // console.log(res);
       })
       .catch((err) => {
@@ -59,11 +59,11 @@ const CountryDelete = () => {
       });
   };
 
-  const deleteCountry = () => {
+  const deleteState = () => {
     setError("");
-    CountryApi.delete(countryId)
+    StateApi.delete(stateId)
       .then((res) => {
-        toastNotify(country?.countryName + " deleted successfully.");
+        toastNotify(state?.stateName + " deleted successfully.");
         navigate(-1);
       })
       .catch((err) => {
@@ -75,7 +75,7 @@ const CountryDelete = () => {
   const displayHeading = () => (
     <Flex>
       <Box>
-        <Heading fontSize={"xl"}>Delete Country</Heading>
+        <Heading fontSize={"xl"}>Delete State</Heading>
       </Box>
       <Spacer />
       <Box>
@@ -86,32 +86,32 @@ const CountryDelete = () => {
     </Flex>
   );
 
-  const showCountryInfo = () => (
+  const showStateInfo = () => (
     <div>
       <Text fontSize="xl">
-        Are you sure you want to delete the following Country?
+        Are you sure you want to delete the following State?
       </Text>
       <TableContainer>
         <Table variant="simple">
           <Tbody>
             <Tr>
               <Th>Name</Th>
-              <Td>{country?.countryName}</Td>
+              <Td>{state?.stateName}</Td>
             </Tr>
             <Tr>
-              <Th>Country Code</Th>
-              <Td>{country?.countryCode}</Td>
+              <Th>State Code</Th>
+              <Td>{state?.stateCode}</Td>
             </Tr>
             <Tr>
-              <Th>States</Th>
-              <Td>{country?.stateCount}</Td>
+              <Th>Country</Th>
+              <Td>{state?.country?.countryName}</Td>
             </Tr>
           </Tbody>
         </Table>
       </TableContainer>
       <HStack pt={4} spacing={4}>
         <Button onClick={onOpen} type="button" colorScheme={"red"}>
-          YES, I WANT TO DELETE THIS COUNTRY
+          YES, I WANT TO DELETE THIS STATE
         </Button>
       </HStack>
     </div>
@@ -126,7 +126,7 @@ const CountryDelete = () => {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Delete Country
+            Delete State
           </AlertDialogHeader>
 
           <AlertDialogBody>
@@ -139,9 +139,9 @@ const CountryDelete = () => {
                 Cancel
               </Button>
             </Link>
-            <Link onClick={deleteCountry} ml={3}>
+            <Link onClick={deleteState} ml={3}>
               <Button type="submit" colorScheme={"red"}>
-                Delete Country Name
+                Delete State Name
               </Button>
             </Link>
           </AlertDialogFooter>
@@ -154,11 +154,11 @@ const CountryDelete = () => {
     <Box p={4}>
       <Stack spacing={4} as={Container} maxW={"3xl"}>
         {displayHeading()}
-        {showCountryInfo()}
+        {showStateInfo()}
         {showAlertDialog()}
       </Stack>
     </Box>
   );
 };
 
-export default CountryDelete;
+export default StateDelete;

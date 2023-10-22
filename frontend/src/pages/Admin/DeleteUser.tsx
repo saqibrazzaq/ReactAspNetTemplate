@@ -38,7 +38,7 @@ import { toastNotify } from "../../Helper";
 import {
   CancelButton,
   DeleteButton,
-  GrayButton,
+  BackButton,
 } from "../../components/Buttons";
 
 const DeleteUser = () => {
@@ -153,7 +153,7 @@ const DeleteUser = () => {
       <Spacer />
       <Box>
         <Link ml={2} onClick={() => navigate(-1)}>
-          <GrayButton />
+          <BackButton />
         </Link>
       </Box>
     </Flex>
