@@ -20,10 +20,33 @@ namespace api.Services.Implementations
 
         public CountryRes Create(CountryEditReq dto)
         {
+            ValidateForCreate(dto);
+
             var entity = _mapper.Map<Country>(dto);
             _rep.CountryRepository.Create(entity);
             _rep.Save();
             return _mapper.Map<CountryRes>(entity);
+        }
+
+        private void ValidateForCreate(CountryEditReq dto)
+        {
+            var entityCountryCode = _rep.CountryRepository.FindByCondition(
+                x => x.CountryCode == dto.CountryCode,
+                false)
+                .FirstOrDefault();
+            if (entityCountryCode != null)
+            {
+                throw new Exception(dto.CountryCode + " Country code already exists");
+            }
+
+            var entityCountryName = _rep.CountryRepository.FindByCondition(
+                x => x.CountryName == dto.CountryName,
+                false)
+                .FirstOrDefault();
+            if (entityCountryName != null)
+            {
+                throw new Exception(dto.CountryName + " Country Name already exists");
+            }
         }
 
         public void Delete(int countryId)
@@ -95,10 +118,35 @@ namespace api.Services.Implementations
 
         public CountryRes Update(int countryId, CountryEditReq dto)
         {
+            ValidateForUpdate(countryId, dto);
+
             var entity = FindCountryIfExists(countryId, true);
             _mapper.Map(dto, entity);
             _rep.Save();
             return _mapper.Map<CountryRes>(entity);
+        }
+
+        private void ValidateForUpdate(int countryId, CountryEditReq dto)
+        {
+            var entityCountryCode = _rep.CountryRepository.FindByCondition(
+                x => x.CountryCode == dto.CountryCode &&
+                x.CountryId != countryId,
+                false)
+                .FirstOrDefault();
+            if (entityCountryCode != null) 
+            {
+                throw new Exception(dto.CountryCode + " Country Code already exists");
+            }
+
+            var entityCountryName = _rep.CountryRepository.FindByCondition(
+                x => x.CountryName == dto.CountryName &&
+                x.CountryId != countryId,
+                false)
+                .FirstOrDefault();
+            if (entityCountryName != null)
+            {
+                throw new Exception(dto.CountryName + " Country Name already exists");
+            }
         }
     }
 }

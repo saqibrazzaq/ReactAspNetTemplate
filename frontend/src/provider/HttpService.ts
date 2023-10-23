@@ -61,7 +61,8 @@ axiosInstance.interceptors.response.use(
       } catch (error) {
         // Handle refresh token error or redirect to login
         console.error("Could not refresh token");
-        // window.location.href = "/login";
+        localStorage.clear();
+        window.location.href = "/login";
         console.log(error);
       }
     }
