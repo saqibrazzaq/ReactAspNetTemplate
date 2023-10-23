@@ -51,9 +51,23 @@ namespace api.Services.Implementations
 
         public void Delete(int countryId)
         {
+            ValidateForDelete(countryId);
+
             var entity = FindCountryIfExists(countryId, true);
             _rep.CountryRepository.Delete(entity);
             _rep.Save();
+        }
+
+        private void ValidateForDelete(int countryId)
+        {
+            var anyStates = _rep.StateRepository.FindByCondition(
+                x => x.CountryId == countryId,
+                false)
+                .Any();
+            if (anyStates == true)
+            {
+                throw new Exception("Cannot delete Country with 1 or more States");
+            }
         }
 
         private Country FindCountryIfExists(int countryId, bool trackChanges)

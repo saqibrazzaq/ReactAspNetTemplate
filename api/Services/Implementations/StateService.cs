@@ -21,10 +21,33 @@ namespace api.Services.Implementations
 
         public StateRes Create(StateEditReq dto)
         {
+            ValidateForCreate(dto);
+
             var entity = _mapper.Map<State>(dto);
             _rep.StateRepository.Create(entity);
             _rep.Save();
             return _mapper.Map<StateRes>(entity);
+        }
+
+        private void ValidateForCreate(StateEditReq dto)
+        {
+            var entityCode = _rep.StateRepository.FindByCondition(
+                x => x.StateCode == dto.StateCode,
+                false)
+                .FirstOrDefault();
+            if (entityCode != null)
+            {
+                throw new Exception(dto.StateCode + " State Code already exists.");
+            }
+
+            var entityName = _rep.StateRepository.FindByCondition(
+                x => x.StateName == dto.StateName,
+                false)
+                .FirstOrDefault();
+            if (entityName != null)
+            {
+                throw new Exception(dto.StateName + " State Name already exists");
+            }
         }
 
         public void Delete(int stateId)
@@ -74,10 +97,35 @@ namespace api.Services.Implementations
 
         public StateRes Update(int stateId, StateEditReq dto)
         {
+            ValidateForUpdate(stateId, dto);
+
             var entity = FindStateIfExists(stateId, true);
             _mapper.Map(dto, entity);
             _rep.Save();
             return _mapper.Map<StateRes>(entity);
+        }
+
+        private void ValidateForUpdate(int stateId, StateEditReq dto)
+        {
+            var entityCode = _rep.StateRepository.FindByCondition(
+                x => x.StateCode == dto.StateCode &&
+                x.StateId != stateId,
+                false)
+                .FirstOrDefault();
+            if (entityCode != null)
+            {
+                throw new Exception(dto.StateCode + " State Code already exists.");
+            }
+
+            var entityName = _rep.StateRepository.FindByCondition(
+                x => x.StateName == dto.StateName &&
+                x.StateId != stateId,
+                false)
+                .FirstOrDefault();
+            if (entityName != null)
+            {
+                throw new Exception(dto.StateName + " State Name already exists");
+            }
         }
     }
 }
