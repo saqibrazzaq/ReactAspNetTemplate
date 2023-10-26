@@ -1,4 +1,5 @@
-﻿using api.Dtos.Country;
+﻿using api.Dtos.Address;
+using api.Dtos.Country;
 using api.Dtos.User;
 using api.Entities;
 
@@ -21,6 +22,12 @@ namespace api
             // State
             CreateMap<State, StateRes>();
             CreateMap<StateEditReq, State>();
+
+            // Address
+            CreateMap<Address, AddressRes>();
+            CreateMap<AddressEditReq, Address>();
+            CreateMap<UserAddress, UserAddressRes>();
+            CreateMap<UserAddressEditReq, UserAddress>();
         }
     }
 }

@@ -7,6 +7,8 @@
         IAccountRepository AccountRepository { get; }
         ICountryRepository CountryRepository { get; }
         IStateRepository StateRepository { get; }
+        IAddressRepository AddressRepository { get; }
+        IUserAddressRepository UserAddressRepository { get; }
         void Save();
     }
 }

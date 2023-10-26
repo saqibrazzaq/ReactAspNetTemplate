@@ -63,6 +63,7 @@ namespace api.Extensions
             services.AddScoped<IAccountDataSeedService, AccountDataSeedService>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserAddressService, UserAddressService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IStateService, StateService>();
         }
