@@ -29,33 +29,33 @@ namespace api.Controllers
 
         [HttpPut("{userAddressId}")]
         [Authorize(Roles = Constants.AllRoles)]
-        public IActionResult Update(int userAddressId, UserAddressEditReq dto)
+        public async Task<IActionResult> Update(int userAddressId, UserAddressEditReq dto)
         {
-            var res = _userAddressService.Update(userAddressId, dto);
+            var res = await _userAddressService.Update(userAddressId, dto);
             return Ok(res);
         }
 
         [HttpDelete("{userAddressId}")]
         [Authorize(Roles = Constants.AllRoles)]
-        public IActionResult Delete(int userAddressId)
+        public async Task<IActionResult> Delete(int userAddressId)
         {
-            _userAddressService.Delete(userAddressId);
+            await _userAddressService.Delete(userAddressId);
             return NoContent();
         }
 
         [HttpGet("{userAddressId}")]
         [Authorize(Roles = Constants.AllRoles)]
-        public IActionResult Get(int userAddressId)
+        public async Task<IActionResult> Get(int userAddressId)
         {
-            var res = _userAddressService.Get(userAddressId);
+            var res = await _userAddressService.Get(userAddressId);
             return Ok(res);
         }
 
         [HttpGet("all")]
         [Authorize(Roles = Constants.AllRoles)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var res = _userAddressService.GetAll();
+            var res = await _userAddressService.GetAll();
             return Ok(res);
         }
     }

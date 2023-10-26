@@ -12,6 +12,8 @@ import TokenRes from "./TokenRes";
 import UserRes from "./UserRes";
 import { Roles } from "./Roles";
 import VerifyEmailReq from "./VerifyEmailReq";
+import UserAddressRes from "./UserAddressRes";
+import UserAddressEditReq from "./UserAddressEditReq";
 
 export {
   AddRoleReq,
@@ -26,5 +28,7 @@ export {
   SendForgotPasswordEmailReq,
   UserRes,
   VerifyEmailReq,
+  UserAddressRes,
+  UserAddressEditReq,
 };
 export type { RoleRes, TokenRes };

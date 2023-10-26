@@ -13,6 +13,7 @@ import {
 } from "../../pages/Account";
 import { NotFound } from "../../pages/ZOther";
 import { withAuth } from "../../hoc";
+import { UserAddresses } from "../../pages/Account/Address";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/account" },
@@ -27,6 +28,11 @@ const LinkItems: Array<LinkItemProps> = [
     href: "/account/verify-account",
   },
   { name: "Profile Picture", icon: MdPerson, href: "/account/profile-picture" },
+  {
+    name: "Addresses",
+    icon: MdOutlineVerifiedUser,
+    href: "/account/addresses",
+  },
 ];
 
 const AccountLayout = () => {
@@ -42,6 +48,7 @@ const AccountLayout = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/profile-picture" element={<ProfilePicture />} />
+          <Route path="/addresses" element={<UserAddresses />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
