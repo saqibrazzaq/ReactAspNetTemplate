@@ -1,6 +1,7 @@
 ﻿using api.Dtos.Country;
 using api.Entities;
 using api.Utility.Paging;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
 namespace api.Repository.Implementations
@@ -14,6 +15,7 @@ namespace api.Repository.Implementations
             var searchTerm = searchParams?.SearchText?.Trim().ToLower();
 
             var itemsToReturn = items;
+            itemsToReturn = itemsToReturn.Include(x => x.Country);
 
             // Search in different properties
             if (string.IsNullOrWhiteSpace(searchTerm) == false)

@@ -35,6 +35,7 @@ import { ErrorDetails } from "../../../models/Error";
 import { toastNotify } from "../../../Helper";
 import { BackButton, RegularButton } from "../../../components/Buttons";
 import { DeleteIconButton, EditIconButton } from "../../../components/Icons";
+import { AddressBlock } from "../../../components/Text";
 
 const UserAddresses = () => {
   const location = useLocation();
@@ -65,7 +66,7 @@ const UserAddresses = () => {
       </Box>
       <Spacer />
       <Box>
-        <Link as={RouteLink} to={"update"}>
+        <Link as={RouteLink} to={"edit"}>
           <RegularButton text="Create Address" />
         </Link>
         <Link ml={2} onClick={() => navigate(-1)}>
@@ -81,13 +82,17 @@ const UserAddresses = () => {
         <Thead>
           <Tr>
             <Th>Address</Th>
+            <Th>Primary</Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
           {addresses.map((item, index) => (
             <Tr key={index}>
-              <Td>{item.address?.address1}</Td>
+              <Td>
+                <AddressBlock address={item.address} />
+              </Td>
+              <Td>{item.address?.isPrimary ? "Primary" : ""}</Td>
               <Td>
                 <Link as={RouteLink} ms={2} to={item.userAddressId + "/edit"}>
                   <EditIconButton />

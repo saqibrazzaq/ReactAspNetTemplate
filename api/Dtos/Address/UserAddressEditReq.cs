@@ -9,6 +9,6 @@ namespace api.Dtos.Address
         public int? AddressId { get; set; }
         public AddressEditReq? Address { get; set; }
         [Required]
-        public string? Username { get; set; }
+        public string? UserId { get; set; }
     }
 }

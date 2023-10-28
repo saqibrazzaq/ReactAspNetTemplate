@@ -13,7 +13,7 @@ import {
 } from "../../pages/Account";
 import { NotFound } from "../../pages/ZOther";
 import { withAuth } from "../../hoc";
-import { UserAddresses } from "../../pages/Account/Address";
+import { UserAddressEdit, UserAddresses } from "../../pages/Account/Address";
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/account" },
@@ -49,6 +49,11 @@ const AccountLayout = () => {
           <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/profile-picture" element={<ProfilePicture />} />
           <Route path="/addresses" element={<UserAddresses />} />
+          <Route path="/addresses/edit" element={<UserAddressEdit />} />
+          <Route
+            path="/addresses/:userAddressId/edit"
+            element={<UserAddressEdit />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

@@ -21,15 +21,15 @@ namespace api.Controllers
 
         [HttpPost]
         [Authorize(Roles = Constants.AllRoles)]
-        public IActionResult Create(UserAddressEditReq dto)
+        public async Task<IActionResult> Create(AddressEditReq dto)
         {
-            var res = _userAddressService.Create(dto);
+            var res = await _userAddressService.Create(dto);
             return Ok(res);
         }
 
         [HttpPut("{userAddressId}")]
         [Authorize(Roles = Constants.AllRoles)]
-        public async Task<IActionResult> Update(int userAddressId, UserAddressEditReq dto)
+        public async Task<IActionResult> Update(int userAddressId, AddressEditReq dto)
         {
             var res = await _userAddressService.Update(userAddressId, dto);
             return Ok(res);
@@ -55,7 +55,7 @@ namespace api.Controllers
         [Authorize(Roles = Constants.AllRoles)]
         public async Task<IActionResult> GetAll()
         {
-            var res = await _userAddressService.GetAll();
+            var res = await _userAddressService.GetAll(false);
             return Ok(res);
         }
     }

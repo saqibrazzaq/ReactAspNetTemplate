@@ -10,7 +10,7 @@ namespace api.Dtos.Address
         public int UserAddressId { get; set; }
         public int? AddressId { get; set; }
         public AddressRes? Address { get; set; }
-        public string? Username { get; set; }
+        public string? UserId { get; set; }
         public UserRes? User { get; set; }
     }
 }

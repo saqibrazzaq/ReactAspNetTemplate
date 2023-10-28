@@ -1,8 +1,8 @@
-import { UserAddressEditReq } from "../models/User";
+import { AddressEditReq } from "../models/Address";
 import { axiosInstance } from "../provider";
 
 export const UserAddressApi = {
-  create: async function (data?: UserAddressEditReq) {
+  create: async function (data?: AddressEditReq) {
     const response = await axiosInstance.request({
       url: "/UserAddresses",
       method: "POST",
@@ -11,7 +11,7 @@ export const UserAddressApi = {
 
     return response.data;
   },
-  update: async function (userAddressId?: string, data?: UserAddressEditReq) {
+  update: async function (userAddressId?: string, data?: AddressEditReq) {
     const response = await axiosInstance.request({
       url: "/UserAddresses/" + userAddressId,
       method: "PUT",

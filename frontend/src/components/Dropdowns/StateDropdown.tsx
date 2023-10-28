@@ -1,30 +1,34 @@
 import { Select } from "chakra-react-select";
 import React, { useEffect, useState } from "react";
-import { UserApi } from "../../api/UserApi";
-import { RoleRes } from "../../models/User";
+import { StateRes, StateSearchReq } from "../../models/Country";
+import { StateApi } from "../../api";
 
-interface RoleDropdownParams {
+interface StateDropdownParams {
   handleChange?: any;
-  selectedRole?: RoleRes;
+  selectedState?: StateRes;
 }
 
-const RoleDropdown = ({ handleChange, selectedRole }: RoleDropdownParams) => {
+const StateDropdown = ({
+  handleChange,
+  selectedState,
+}: StateDropdownParams) => {
   const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState<RoleRes[]>([]);
+  const [items, setItems] = useState<StateRes[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadRoles = () => {
+  const loadStates = () => {
     setIsLoading(true);
-    UserApi.getAllRoles()
+    StateApi.search(new StateSearchReq({ searchText: inputValue }, {}))
       .then((res) => {
-        setItems(res);
+        // console.log(res.pagedList);
+        setItems(res.pagedList);
       })
       .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      loadRoles();
+      loadStates();
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -36,17 +40,17 @@ const RoleDropdown = ({ handleChange, selectedRole }: RoleDropdownParams) => {
 
   return (
     <Select
-      getOptionLabel={(c) => c.roleName || ""}
-      getOptionValue={(c) => c.roleName || ""}
+      getOptionLabel={(c) => c.stateName + ", " + c.country?.countryName || ""}
+      getOptionValue={(c) => c.stateId || ""}
       options={items}
       onChange={handleChange}
       onInputChange={handleInputChange}
       isClearable={true}
-      placeholder="Select role..."
+      placeholder="Select state..."
       isLoading={isLoading}
-      value={selectedRole}
+      value={selectedState}
     ></Select>
   );
 };
 
-export default RoleDropdown;
+export default StateDropdown;

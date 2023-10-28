@@ -13,8 +13,8 @@ namespace api.Entities
         [ForeignKey(nameof(AddressId))]
         public Address? Address { get; set; }
         [Required]
-        public string? Username { get; set; }
-        [ForeignKey(nameof(Username))]
+        public string? UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
         public AppIdentityUser? User { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import { AddressRes } from "../Address";
 
 export default class UserAddressEditReq {
-  addressId?: string;
+  addressId?: string = "";
   address?: AddressRes;
-  username?: string;
+  username?: string = "";
 }

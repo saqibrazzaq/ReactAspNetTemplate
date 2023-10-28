@@ -22,9 +22,16 @@ namespace api.Services.Implementations
             _userService = userService;
         }
 
-        public UserAddressRes Create(UserAddressEditReq dto)
+        public async Task<UserAddressRes> Create(AddressEditReq dto)
         {
-            var entity = _mapper.Map<UserAddress>(dto);
+            var currentUser = await _userService.GetLoggedInUser();
+            var userAddressDto = new UserAddressEditReq
+            {
+                Address = dto,
+                UserId = currentUser.Id
+            };
+            var entity = _mapper.Map<UserAddress>(userAddressDto);
+
             _rep.UserAddressRepository.Create(entity);
             _rep.Save();
             return _mapper.Map<UserAddressRes>(entity);
@@ -44,7 +51,9 @@ namespace api.Services.Implementations
                 x => x.UserAddressId == userAddressId &&
                     x.User.AccountId == currentUser.AccountId,
                 trackChanges,
-                include: i => i.Include(x => x.Address))
+                include: i => i
+                    .Include(x => x.Address.State)
+                    )
                 .FirstOrDefault();
             if (entity == null) throw new Exception("No address found with id" + userAddressId);
 
@@ -57,23 +66,44 @@ namespace api.Services.Implementations
             return _mapper.Map<UserAddressRes>(entity);
         }
 
-        public async Task<IList<UserAddressRes>> GetAll()
+        public async Task<IList<UserAddressRes>> GetAll(bool trackChanges)
         {
             var user = await _userService.GetLoggedInUser();
             var entities = _rep.UserAddressRepository.FindByCondition(
-                x => x.Username == user.UserName,
-                false,
-                include: i => i.Include(x => x.Address))
+                x => x.UserId.ToString() == user.Id,
+                trackChanges,
+                include: i => i.Include(x => x.Address.State.Country))
                 .ToList();
             return _mapper.Map<IList<UserAddressRes>>(entities);
         }
 
-        public async Task<UserAddressRes> Update(int userAddressId, UserAddressEditReq dto)
+        public async Task<UserAddressRes> Update(int userAddressId, AddressEditReq dto)
         {
             var entity = await FindUserAddressIfExists(userAddressId, true);
-            _mapper.Map(dto, entity);
+            if (dto.IsPrimary) { await MakeOtherAddressesNonPrimary(userAddressId); }
+            
+            _mapper.Map(dto, entity.Address);
             _rep.Save();
             return _mapper.Map<UserAddressRes>(entity);
+        }
+
+        private async Task MakeOtherAddressesNonPrimary(int userAddressId)
+        {
+            var user = await _userService.GetLoggedInUser();
+            var addressIds = _rep.UserAddressRepository.FindByCondition(
+                x => x.UserId == user.Id &&
+                x.UserAddressId != userAddressId,
+                false)
+                .Select(x => x.AddressId)
+                .ToList();
+
+            var addresses = _rep.AddressRepository.FindByCondition(
+                x => addressIds.Contains(x.AddressId),
+                true).ToList();
+            for (int i = 0; i < addresses.Count(); i++)
+            {
+                addresses.ElementAt(i).IsPrimary = false;
+            }
         }
     }
 }
