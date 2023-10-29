@@ -52,7 +52,7 @@ namespace api.Services.Implementations
                     x.User.AccountId == currentUser.AccountId,
                 trackChanges,
                 include: i => i
-                    .Include(x => x.Address.State)
+                    .Include(x => x.Address.State.Country)
                     )
                 .FirstOrDefault();
             if (entity == null) throw new Exception("No address found with id" + userAddressId);
